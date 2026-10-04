@@ -1,0 +1,114 @@
+{
+  "test": {
+    "ece": 0.0129,
+    "mce": 0.166,
+    "interpretation": "Expected calibration error: the average absolute gap between predicted risk and observed event frequency across deciles of predicted risk.",
+    "curve": {
+      "bin_centres": [
+        0.05,
+        0.15,
+        0.25,
+        0.35,
+        0.45,
+        0.55,
+        0.65,
+        0.75,
+        0.85,
+        0.95
+      ],
+      "mean_predicted": [
+        0.0072,
+        0.1456,
+        0.2479,
+        0.3476,
+        0.4516,
+        0.5457,
+        0.6574,
+        0.7465,
+        0.8547,
+        0.9599
+      ],
+      "observed_frequency": [
+        0.0115,
+        0.1958,
+        0.2849,
+        0.35,
+        0.374,
+        0.4821,
+        0.4914,
+        0.5922,
+        0.8529,
+        0.9454
+      ],
+      "counts": [
+        6799,
+        286,
+        186,
+        140,
+        123,
+        112,
+        116,
+        103,
+        136,
+        293
+      ]
+    }
+  },
+  "validation": {
+    "ece": 0.0115,
+    "mce": 0.1291,
+    "interpretation": "Expected calibration error: the average absolute gap between predicted risk and observed event frequency across deciles of predicted risk.",
+    "curve": {
+      "bin_centres": [
+        0.05,
+        0.15,
+        0.25,
+        0.35,
+        0.45,
+        0.55,
+        0.65,
+        0.75,
+        0.85,
+        0.95
+      ],
+      "mean_predicted": [
+        0.0098,
+        0.1435,
+        0.2451,
+        0.3504,
+        0.4441,
+        0.5486,
+        0.6512,
+        0.7555,
+        0.8547,
+        0.9557
+      ],
+      "observed_frequency": [
+        0.0121,
+        0.1324,
+        0.2522,
+        0.2213,
+        0.4478,
+        0.4824,
+        0.549,
+        0.7407,
+        0.8229,
+        0.9269
+      ],
+      "counts": [
+        3972,
+        204,
+        115,
+        122,
+        67,
+        85,
+        102,
+        135,
+        175,
+        301
+      ]
+    }
+  },
+  "calibrator_applied": false,
+  "validation_ece_before_calibration": 0.0115
+}

@@ -1,0 +1,1397 @@
+{
+  "$schema_note": "Synthetic demo records for the VitalSync prototype. No real patient data. All values are fabricated for demonstration and research purposes.",
+  "data_classification": "SYNTHETIC — NOT REAL PATIENT DATA",
+  "generated_by": "backend/services/synthetic_data.py",
+  "units": {
+    "glucose": "mg/dL",
+    "hba1c": "%",
+    "blood_pressure": "mmHg",
+    "bmi": "kg/m^2",
+    "hrv": "ms (RMSSD)",
+    "heart_rate": "bpm",
+    "spo2": "%",
+    "creatinine": "mg/dL",
+    "egfr": "mL/min/1.73m^2",
+    "ldl": "mg/dL",
+    "acr": "mg/g"
+  },
+  "patients": [
+    {
+      "patient_id": "DT-1047",
+      "mrn": "MRN-88214-07",
+      "name": "Aarav Mehta",
+      "age": 47,
+      "sex": "Male",
+      "date_of_birth": "1979-02-14",
+      "blood_group": "B+",
+      "primary_condition": "Type 2 Diabetes Mellitus",
+      "condition_code": "E11.9",
+      "care_setting": "Preventive Care & Endocrinology Outpatient",
+      "care_team": {
+        "primary_physician": "Dr. Anjali Verma, MD (Internal Medicine)",
+        "endocrinologist": "Dr. Samuel Fernandes, MD (Endocrinology)",
+        "diabetes_educator": "Nurse Pratiksha Nair, CDE",
+        "dietitian": "Ms. Farah Siddiqui, RD"
+      },
+      "is_demo_patient": true,
+      "ehr": {
+        "demographics": {
+          "age": 47,
+          "sex": "Male",
+          "height_cm": 174,
+          "weight_kg": 87.9,
+          "bmi": 29.1,
+          "waist_cm": 101,
+          "occupation": "Software engineering manager",
+          "smoking_status": "Never smoker",
+          "alcohol": "Occasional (2-3 units/week)",
+          "diet_pattern": "Mixed vegetarian, high refined-carbohydrate intake",
+          "city": "Bengaluru"
+        },
+        "diabetes": {
+          "diagnosis_year": 2019,
+          "duration_years": 6.6,
+          "status": "Type 2 Diabetes Mellitus",
+          "management": "Oral glucose-lowering therapy + continuous glucose monitoring",
+          "hypoglycaemia_episodes_12m": 1,
+          "prior_dka_hhs": false,
+          "note": "HbA1c 7.4% corresponds to an estimated mean glucose of ~165 mg/dL"
+        },
+        "diagnoses": [
+          {
+            "code": "E11.9",
+            "name": "Type 2 diabetes mellitus without complications",
+            "diagnosed": "2019-06-11",
+            "status": "active"
+          },
+          {
+            "code": "E66.3",
+            "name": "Overweight (BMI 25.0-29.9)",
+            "diagnosed": "2017-03-02",
+            "status": "active"
+          },
+          {
+            "code": "I10",
+            "name": "Essential hypertension, stage 1",
+            "diagnosed": "2022-09-19",
+            "status": "active"
+          },
+          {
+            "code": "E78.5",
+            "name": "Hyperlipidaemia, unspecified",
+            "diagnosed": "2023-01-24",
+            "status": "active"
+          },
+          {
+            "code": "G47.00",
+            "name": "Insomnia, unspecified (short sleep duration)",
+            "diagnosed": "2025-04-08",
+            "status": "active"
+          },
+          {
+            "code": "M54.5",
+            "name": "Low back pain (mechanical)",
+            "diagnosed": "2021-11-30",
+            "status": "resolved"
+          }
+        ],
+        "medications": [
+          {
+            "name": "Metformin",
+            "dose": "1000 mg",
+            "route": "oral",
+            "frequency": "twice daily",
+            "started": "2019-06-20",
+            "status": "current",
+            "class": "Biguanide",
+            "indication": "Type 2 diabetes",
+            "adherence": 0.91
+          },
+          {
+            "name": "Empagliflozin",
+            "dose": "10 mg",
+            "route": "oral",
+            "frequency": "once daily",
+            "started": "2025-08-14",
+            "status": "current",
+            "class": "SGLT2 inhibitor",
+            "indication": "Type 2 diabetes",
+            "adherence": 0.86
+          },
+          {
+            "name": "Telmisartan",
+            "dose": "40 mg",
+            "route": "oral",
+            "frequency": "once daily",
+            "started": "2022-10-01",
+            "status": "current",
+            "class": "ARB",
+            "indication": "Hypertension",
+            "adherence": 0.94
+          },
+          {
+            "name": "Atorvastatin",
+            "dose": "10 mg",
+            "route": "oral",
+            "frequency": "once nightly",
+            "started": "2023-02-06",
+            "status": "current",
+            "class": "Statin",
+            "indication": "Hyperlipidaemia",
+            "adherence": 0.88
+          },
+          {
+            "name": "Glimepiride",
+            "dose": "1 mg",
+            "route": "oral",
+            "frequency": "once daily",
+            "started": "2021-02-15",
+            "status": "discontinued",
+            "class": "Sulfonylurea",
+            "indication": "Type 2 diabetes",
+            "stopped": "2025-08-14",
+            "reason": "Switched to SGLT2 inhibitor after mild hypoglycaemia"
+          }
+        ],
+        "lab_results": [
+          {
+            "test": "HbA1c",
+            "value": 7.4,
+            "unit": "%",
+            "collected": "2026-08-28",
+            "reference": "4.0-5.6",
+            "trend": [
+              {
+                "collected": "2025-02-10",
+                "value": 7.9
+              },
+              {
+                "collected": "2025-08-22",
+                "value": 7.6
+              },
+              {
+                "collected": "2026-02-18",
+                "value": 7.5
+              },
+              {
+                "collected": "2026-08-28",
+                "value": 7.4
+              }
+            ]
+          },
+          {
+            "test": "Fasting plasma glucose",
+            "value": 138,
+            "unit": "mg/dL",
+            "collected": "2026-08-28",
+            "reference": "70-99"
+          },
+          {
+            "test": "Fasting insulin",
+            "value": 16.8,
+            "unit": "uIU/mL",
+            "collected": "2026-08-28",
+            "reference": "2.6-24.9"
+          },
+          {
+            "test": "Total cholesterol",
+            "value": 186,
+            "unit": "mg/dL",
+            "collected": "2026-08-28",
+            "reference": "<200"
+          },
+          {
+            "test": "LDL cholesterol",
+            "value": 108,
+            "unit": "mg/dL",
+            "collected": "2026-08-28",
+            "reference": "<100"
+          },
+          {
+            "test": "HDL cholesterol",
+            "value": 39,
+            "unit": "mg/dL",
+            "collected": "2026-08-28",
+            "reference": ">40"
+          },
+          {
+            "test": "Triglycerides",
+            "value": 178,
+            "unit": "mg/dL",
+            "collected": "2026-08-28",
+            "reference": "<150"
+          },
+          {
+            "test": "Serum creatinine",
+            "value": 0.94,
+            "unit": "mg/dL",
+            "collected": "2026-08-28",
+            "reference": "0.70-1.30"
+          },
+          {
+            "test": "eGFR",
+            "value": 96,
+            "unit": "mL/min/1.73m^2",
+            "collected": "2026-08-28",
+            "reference": ">90"
+          },
+          {
+            "test": "Urine albumin/creatinine ratio",
+            "value": 18,
+            "unit": "mg/g",
+            "collected": "2026-08-28",
+            "reference": "<30"
+          },
+          {
+            "test": "Vitamin D (25-OH)",
+            "value": 21,
+            "unit": "ng/mL",
+            "collected": "2026-02-18",
+            "reference": "30-100"
+          },
+          {
+            "test": "TSH",
+            "value": 2.1,
+            "unit": "mIU/L",
+            "collected": "2026-02-18",
+            "reference": "0.4-4.0"
+          }
+        ],
+        "vitals_history": {
+          "blood_pressure": [
+            {
+              "date": "2026-08-28",
+              "systolic": 134,
+              "diastolic": 86
+            },
+            {
+              "date": "2026-06-11",
+              "systolic": 138,
+              "diastolic": 88
+            },
+            {
+              "date": "2026-02-18",
+              "systolic": 142,
+              "diastolic": 90
+            },
+            {
+              "date": "2025-08-22",
+              "systolic": 146,
+              "diastolic": 92
+            }
+          ],
+          "resting_heart_rate": 71,
+          "weight_trend_kg": [
+            {
+              "date": "2025-08-22",
+              "value": 90.4
+            },
+            {
+              "date": "2026-02-18",
+              "value": 88.6
+            },
+            {
+              "date": "2026-08-28",
+              "value": 87.9
+            }
+          ]
+        },
+        "family_history": [
+          {
+            "relation": "Father",
+            "condition": "Type 2 diabetes",
+            "age_at_onset": 54
+          },
+          {
+            "relation": "Father",
+            "condition": "Myocardial infarction",
+            "age_at_onset": 63
+          },
+          {
+            "relation": "Mother",
+            "condition": "Hypertension",
+            "age_at_onset": 58
+          },
+          {
+            "relation": "Paternal grandmother",
+            "condition": "Type 2 diabetes",
+            "age_at_onset": 61
+          }
+        ],
+        "risk_factors": [
+          "Central adiposity (waist 101 cm)",
+          "Sedentary occupation with prolonged sitting blocks",
+          "Chronic short sleep (average 6.2 h)",
+          "First-degree relative with type 2 diabetes",
+          "Elevated triglycerides / low HDL pattern",
+          "Stage 1 hypertension on treatment"
+        ],
+        "previous_glucose_instability": {
+          "source": "Prior 14-day CGM report (2026-08-06 to 2026-08-19)",
+          "mean_glucose_mgdl": 157,
+          "coefficient_of_variation_pct": 25.8,
+          "time_in_range_70_180_pct": 71.4,
+          "time_above_180_pct": 27.9,
+          "time_below_70_pct": 0.7,
+          "hyperglycaemic_episodes_14d": 11,
+          "estimated_gmi_pct": 7.1
+        },
+        "allergies": [
+          "No known drug allergies"
+        ],
+        "immunizations": [
+          {
+            "name": "Influenza (quadrivalent)",
+            "date": "2025-10-14"
+          }
+        ],
+        "lifestyle": {
+          "activity_level": "Low (predominantly desk-based)",
+          "average_daily_steps": 5200,
+          "average_sleep_hours": 6.2,
+          "sleep_quality": "Fragmented, late bedtimes on work nights",
+          "meal_pattern": "Breakfast 08:00, lunch 12:30-13:00, dinner 20:15",
+          "caffeine": "3 cups/day, last after 17:00 on some days",
+          "stress": "Elevated during quarterly release cycles",
+          "average_hrv_ms": 47
+        }
+      },
+      "devices": [
+        {
+          "type": "Continuous glucose monitor",
+          "model": "Dexcom G7",
+          "site": "Posterior upper arm",
+          "worn_since": "2026-09-12",
+          "sample_interval_min": 5,
+          "status": "active"
+        },
+        {
+          "type": "Wrist wearable",
+          "model": "Fitbit Charge 6",
+          "worn_since": "2025-11-03",
+          "sample_interval_min": 5,
+          "status": "active"
+        },
+        {
+          "type": "Connected BP cuff",
+          "model": "Omron HEM-7156",
+          "last_sync": "2026-09-28",
+          "status": "intermittent"
+        }
+      ],
+      "physiology": {
+        "seed": 104701,
+        "fasting_glucose_mgdl": 145,
+        "glucose_floor_mgdl": 84,
+        "insulin_sensitivity": 0.66,
+        "cgm_noise_mgdl": 2.8,
+        "carb_response_mgdl_per_g": 0.5,
+        "med_hepatic_output_factor": 0.95,
+        "med_postprandial_factor": 0.92,
+        "resting_hr_bpm": 71,
+        "hrv_baseline_ms": 47,
+        "daily_steps_baseline": 5200,
+        "sleep_duration_baseline_h": 6.2,
+        "sleep_efficiency_baseline": 0.82,
+        "sleep_deep_fraction_baseline": 0.15,
+        "spo2_baseline_pct": 96.6,
+        "weekend_activity_factor": 0.86,
+        "variability_scale": 1.25
+      },
+      "scenario": {
+        "meals": [
+          {
+            "day_offset": 0,
+            "clock": "08:05",
+            "carbs_g": 42,
+            "label": "Breakfast — vegetable poha, curd, sweetened chai",
+            "logged": true
+          },
+          {
+            "day_offset": 0,
+            "clock": "10:40",
+            "carbs_g": 24,
+            "label": "Mid-morning snack — tea and biscuits at desk",
+            "logged": true
+          },
+          {
+            "day_offset": 0,
+            "clock": "12:35",
+            "carbs_g": 100,
+            "label": "Lunch — steamed rice, dal, chicken curry, sweetened buttermilk",
+            "logged": true
+          },
+          {
+            "day_offset": 0,
+            "clock": "20:20",
+            "carbs_g": 78,
+            "label": "Dinner — chapati, paneer bhurji, rice",
+            "logged": true
+          },
+          {
+            "day_offset": -1,
+            "clock": "08:15",
+            "carbs_g": 58,
+            "label": "Breakfast — idli, sambar",
+            "logged": true
+          },
+          {
+            "day_offset": -1,
+            "clock": "13:10",
+            "carbs_g": 100,
+            "label": "Lunch — canteen thali",
+            "logged": true
+          },
+          {
+            "day_offset": -1,
+            "clock": "17:20",
+            "carbs_g": 32,
+            "label": "Evening snack — tea, biscuits",
+            "logged": false
+          },
+          {
+            "day_offset": -1,
+            "clock": "20:40",
+            "carbs_g": 84,
+            "label": "Dinner — chapati, mixed vegetable curry, rice",
+            "logged": true
+          },
+          {
+            "day_offset": -2,
+            "clock": "07:55",
+            "carbs_g": 62,
+            "label": "Breakfast — oats upma, fruit",
+            "logged": true
+          },
+          {
+            "day_offset": -2,
+            "clock": "12:50",
+            "carbs_g": 96,
+            "label": "Lunch — rice, rajma, salad",
+            "logged": true
+          },
+          {
+            "day_offset": -2,
+            "clock": "19:55",
+            "carbs_g": 80,
+            "label": "Dinner — chapati, dal, curd",
+            "logged": true
+          }
+        ],
+        "sleep_nights": [
+          {
+            "day_offset": 0,
+            "bed": "23:25",
+            "wake": "05:50",
+            "efficiency": 0.75,
+            "deep_fraction": 0.11,
+            "awakenings": 5,
+            "note": "Escalation call until 23:20; fragmented sleep, five awakenings"
+          },
+          {
+            "day_offset": -1,
+            "bed": "22:50",
+            "wake": "06:25",
+            "efficiency": 0.82,
+            "deep_fraction": 0.15,
+            "awakenings": 2,
+            "note": "Typical work night"
+          },
+          {
+            "day_offset": -2,
+            "bed": "22:40",
+            "wake": "06:20",
+            "efficiency": 0.85,
+            "deep_fraction": 0.17,
+            "awakenings": 1,
+            "note": "Typical work night"
+          }
+        ],
+        "activity_blocks": [
+          {
+            "day_offset": 0,
+            "start": "09:20",
+            "end": "12:25",
+            "intensity": "sedentary",
+            "steps_per_min": 1.3,
+            "label": "Back-to-back release reviews — no walking break taken"
+          },
+          {
+            "day_offset": 0,
+            "start": "15:10",
+            "end": "15:45",
+            "intensity": "light",
+            "steps_per_min": 42,
+            "label": "Short walk after glucose alert"
+          },
+          {
+            "day_offset": -1,
+            "start": "18:30",
+            "end": "19:10",
+            "intensity": "moderate",
+            "steps_per_min": 78,
+            "label": "Evening walk with family"
+          }
+        ]
+      }
+    },
+    {
+      "patient_id": "DT-1182",
+      "mrn": "MRN-70455-02",
+      "name": "Sunita Rao",
+      "age": 61,
+      "sex": "Female",
+      "date_of_birth": "1965-05-30",
+      "blood_group": "O+",
+      "primary_condition": "Type 2 Diabetes Mellitus (long-standing, insulin-treated)",
+      "condition_code": "E11.65",
+      "care_setting": "Endocrinology Outpatient",
+      "care_team": {
+        "primary_physician": "Dr. Anjali Verma, MD (Internal Medicine)",
+        "endocrinologist": "Dr. Samuel Fernandes, MD (Endocrinology)",
+        "diabetes_educator": "Nurse Pratiksha Nair, CDE",
+        "dietitian": "Ms. Farah Siddiqui, RD"
+      },
+      "is_demo_patient": false,
+      "ehr": {
+        "demographics": {
+          "age": 61,
+          "sex": "Female",
+          "height_cm": 158,
+          "weight_kg": 74.2,
+          "bmi": 29.7,
+          "waist_cm": 98,
+          "occupation": "Retired school principal",
+          "smoking_status": "Never smoker",
+          "alcohol": "None",
+          "diet_pattern": "Vegetarian, rice-dominant",
+          "city": "Pune"
+        },
+        "diabetes": {
+          "diagnosis_year": 2014,
+          "duration_years": 11.8,
+          "status": "Type 2 Diabetes Mellitus, insulin-treated",
+          "management": "Basal-bolus insulin + metformin",
+          "hypoglycaemia_episodes_12m": 4,
+          "prior_dka_hhs": false
+        },
+        "diagnoses": [
+          {
+            "code": "E11.65",
+            "name": "Type 2 diabetes mellitus with hyperglycaemia",
+            "diagnosed": "2014-04-22",
+            "status": "active"
+          },
+          {
+            "code": "E11.22",
+            "name": "Type 2 diabetes with chronic kidney disease, stage 2",
+            "diagnosed": "2023-07-15",
+            "status": "active"
+          },
+          {
+            "code": "I10",
+            "name": "Essential hypertension",
+            "diagnosed": "2013-02-08",
+            "status": "active"
+          },
+          {
+            "code": "M17.11",
+            "name": "Osteoarthritis of right knee",
+            "diagnosed": "2021-05-19",
+            "status": "active"
+          },
+          {
+            "code": "E03.9",
+            "name": "Hypothyroidism",
+            "diagnosed": "2018-09-03",
+            "status": "active"
+          }
+        ],
+        "medications": [
+          {
+            "name": "Insulin glargine",
+            "dose": "22 units",
+            "route": "subcutaneous",
+            "frequency": "once nightly",
+            "started": "2021-03-11",
+            "status": "current",
+            "class": "Basal insulin",
+            "indication": "Type 2 diabetes",
+            "adherence": 0.93
+          },
+          {
+            "name": "Insulin aspart",
+            "dose": "6-8 units",
+            "route": "subcutaneous",
+            "frequency": "with meals",
+            "started": "2022-06-20",
+            "status": "current",
+            "class": "Prandial insulin",
+            "indication": "Type 2 diabetes",
+            "adherence": 0.79
+          },
+          {
+            "name": "Metformin",
+            "dose": "500 mg",
+            "route": "oral",
+            "frequency": "twice daily",
+            "started": "2014-04-25",
+            "status": "current",
+            "class": "Biguanide",
+            "indication": "Type 2 diabetes",
+            "adherence": 0.9
+          },
+          {
+            "name": "Amlodipine",
+            "dose": "5 mg",
+            "route": "oral",
+            "frequency": "once daily",
+            "started": "2013-03-01",
+            "status": "current",
+            "class": "CCB",
+            "indication": "Hypertension",
+            "adherence": 0.95
+          },
+          {
+            "name": "Levothyroxine",
+            "dose": "50 mcg",
+            "route": "oral",
+            "frequency": "once daily",
+            "started": "2018-09-10",
+            "status": "current",
+            "class": "Thyroid hormone",
+            "indication": "Hypothyroidism",
+            "adherence": 0.92
+          },
+          {
+            "name": "Atorvastatin",
+            "dose": "20 mg",
+            "route": "oral",
+            "frequency": "once nightly",
+            "started": "2019-11-05",
+            "status": "current",
+            "class": "Statin",
+            "indication": "Cardiovascular risk reduction",
+            "adherence": 0.9
+          }
+        ],
+        "lab_results": [
+          {
+            "test": "HbA1c",
+            "value": 8.3,
+            "unit": "%",
+            "collected": "2026-09-04",
+            "reference": "4.0-5.6",
+            "trend": [
+              {
+                "collected": "2025-03-14",
+                "value": 8.8
+              },
+              {
+                "collected": "2025-09-09",
+                "value": 8.6
+              },
+              {
+                "collected": "2026-03-11",
+                "value": 8.5
+              },
+              {
+                "collected": "2026-09-04",
+                "value": 8.3
+              }
+            ]
+          },
+          {
+            "test": "Fasting plasma glucose",
+            "value": 169,
+            "unit": "mg/dL",
+            "collected": "2026-09-04",
+            "reference": "70-99"
+          },
+          {
+            "test": "Serum creatinine",
+            "value": 1.08,
+            "unit": "mg/dL",
+            "collected": "2026-09-04",
+            "reference": "0.55-1.10"
+          },
+          {
+            "test": "eGFR",
+            "value": 62,
+            "unit": "mL/min/1.73m^2",
+            "collected": "2026-09-04",
+            "reference": ">90"
+          },
+          {
+            "test": "Urine albumin/creatinine ratio",
+            "value": 84,
+            "unit": "mg/g",
+            "collected": "2026-09-04",
+            "reference": "<30"
+          },
+          {
+            "test": "LDL cholesterol",
+            "value": 92,
+            "unit": "mg/dL",
+            "collected": "2026-09-04",
+            "reference": "<70 (high risk)"
+          },
+          {
+            "test": "Triglycerides",
+            "value": 164,
+            "unit": "mg/dL",
+            "collected": "2026-09-04",
+            "reference": "<150"
+          },
+          {
+            "test": "Haemoglobin",
+            "value": 11.6,
+            "unit": "g/dL",
+            "collected": "2026-09-04",
+            "reference": "12.0-15.5"
+          },
+          {
+            "test": "Vitamin B12",
+            "value": 268,
+            "unit": "pg/mL",
+            "collected": "2026-03-11",
+            "reference": "200-900"
+          }
+        ],
+        "vitals_history": {
+          "blood_pressure": [
+            {
+              "date": "2026-09-04",
+              "systolic": 142,
+              "diastolic": 84
+            },
+            {
+              "date": "2026-06-19",
+              "systolic": 146,
+              "diastolic": 86
+            },
+            {
+              "date": "2026-03-11",
+              "systolic": 150,
+              "diastolic": 88
+            }
+          ],
+          "resting_heart_rate": 76,
+          "weight_trend_kg": [
+            {
+              "date": "2025-09-09",
+              "value": 76.1
+            },
+            {
+              "date": "2026-03-11",
+              "value": 75.0
+            },
+            {
+              "date": "2026-09-04",
+              "value": 74.2
+            }
+          ]
+        },
+        "family_history": [
+          {
+            "relation": "Mother",
+            "condition": "Type 2 diabetes",
+            "age_at_onset": 49
+          },
+          {
+            "relation": "Brother",
+            "condition": "Type 2 diabetes",
+            "age_at_onset": 52
+          },
+          {
+            "relation": "Father",
+            "condition": "Ischaemic stroke",
+            "age_at_onset": 71
+          }
+        ],
+        "risk_factors": [
+          "Long diabetes duration with progressive beta-cell decline",
+          "Microalbuminuria (CKD stage 2)",
+          "High glucose variability with recurrent mild hypoglycaemia",
+          "Reduced mobility from knee osteoarthritis",
+          "Variable prandial insulin timing"
+        ],
+        "previous_glucose_instability": {
+          "source": "Prior 14-day CGM report (2026-08-15 to 2026-08-28)",
+          "mean_glucose_mgdl": 181,
+          "coefficient_of_variation_pct": 38.9,
+          "time_in_range_70_180_pct": 47.3,
+          "time_above_180_pct": 50.1,
+          "time_below_70_pct": 2.6,
+          "hyperglycaemic_episodes_14d": 17,
+          "estimated_gmi_pct": 8.0
+        },
+        "allergies": [
+          "Sulfa drugs (rash)"
+        ],
+        "immunizations": [
+          {
+            "name": "Influenza (quadrivalent)",
+            "date": "2025-11-02"
+          },
+          {
+            "name": "Pneumococcal conjugate",
+            "date": "2024-08-21"
+          }
+        ],
+        "lifestyle": {
+          "activity_level": "Low-moderate, limited by knee pain",
+          "average_daily_steps": 3800,
+          "average_sleep_hours": 6.0,
+          "sleep_quality": "Interrupted by nocturia",
+          "meal_pattern": "Breakfast 08:30, lunch 13:30, dinner 19:45",
+          "caffeine": "2 cups/day",
+          "stress": "Moderate",
+          "average_hrv_ms": 34
+        }
+      },
+      "devices": [
+        {
+          "type": "Continuous glucose monitor",
+          "model": "FreeStyle Libre 3",
+          "site": "Left upper arm",
+          "worn_since": "2026-09-15",
+          "sample_interval_min": 5,
+          "status": "active"
+        },
+        {
+          "type": "Wrist wearable",
+          "model": "Apple Watch SE",
+          "worn_since": "2025-01-20",
+          "sample_interval_min": 5,
+          "status": "active"
+        },
+        {
+          "type": "Smart insulin pen cap",
+          "model": "Timesulin",
+          "last_sync": "2026-10-02",
+          "status": "intermittent"
+        }
+      ],
+      "physiology": {
+        "seed": 118204,
+        "fasting_glucose_mgdl": 176,
+        "glucose_floor_mgdl": 78,
+        "insulin_sensitivity": 0.55,
+        "cgm_noise_mgdl": 4.2,
+        "carb_response_mgdl_per_g": 0.44,
+        "med_hepatic_output_factor": 0.96,
+        "med_postprandial_factor": 0.88,
+        "resting_hr_bpm": 76,
+        "hrv_baseline_ms": 34,
+        "daily_steps_baseline": 3800,
+        "sleep_duration_baseline_h": 6.0,
+        "sleep_efficiency_baseline": 0.78,
+        "sleep_deep_fraction_baseline": 0.12,
+        "spo2_baseline_pct": 95.8,
+        "weekend_activity_factor": 0.9,
+        "variability_scale": 1.45
+      },
+      "scenario": {
+        "meals": [
+          {
+            "day_offset": 0,
+            "clock": "08:35",
+            "carbs_g": 62,
+            "label": "Breakfast — dosa, coconut chutney (bolus dose given 25 min late)",
+            "logged": true
+          },
+          {
+            "day_offset": 0,
+            "clock": "13:35",
+            "carbs_g": 84,
+            "label": "Lunch — rice, sambar, potato curry",
+            "logged": true
+          },
+          {
+            "day_offset": 0,
+            "clock": "19:45",
+            "carbs_g": 62,
+            "label": "Dinner — phulka, bhindi, curd",
+            "logged": true
+          },
+          {
+            "day_offset": -1,
+            "clock": "08:20",
+            "carbs_g": 58,
+            "label": "Breakfast — poha, fruit",
+            "logged": true
+          },
+          {
+            "day_offset": -1,
+            "clock": "13:20",
+            "carbs_g": 86,
+            "label": "Lunch — rice thali",
+            "logged": true
+          },
+          {
+            "day_offset": -1,
+            "clock": "20:00",
+            "carbs_g": 66,
+            "label": "Dinner — phulka, palak paneer",
+            "logged": true
+          },
+          {
+            "day_offset": -2,
+            "clock": "08:40",
+            "carbs_g": 56,
+            "label": "Breakfast — upma",
+            "logged": true
+          },
+          {
+            "day_offset": -2,
+            "clock": "13:40",
+            "carbs_g": 82,
+            "label": "Lunch — rice, kadhi",
+            "logged": true
+          },
+          {
+            "day_offset": -2,
+            "clock": "19:50",
+            "carbs_g": 64,
+            "label": "Dinner — phulka, dal",
+            "logged": true
+          }
+        ],
+        "sleep_nights": [
+          {
+            "day_offset": 0,
+            "bed": "22:50",
+            "wake": "05:05",
+            "efficiency": 0.72,
+            "deep_fraction": 0.09,
+            "awakenings": 5,
+            "note": "Two nocturia episodes; right knee pain"
+          },
+          {
+            "day_offset": -1,
+            "bed": "22:40",
+            "wake": "06:20",
+            "efficiency": 0.79,
+            "deep_fraction": 0.12,
+            "awakenings": 3,
+            "note": "One nocturia episode"
+          }
+        ],
+        "activity_blocks": [
+          {
+            "day_offset": 0,
+            "start": "09:30",
+            "end": "12:40",
+            "intensity": "sedentary",
+            "steps_per_min": 0.9,
+            "label": "Resting after knee pain flare"
+          },
+          {
+            "day_offset": -1,
+            "start": "17:40",
+            "end": "18:05",
+            "intensity": "light",
+            "steps_per_min": 34,
+            "label": "Slow walk in society compound"
+          }
+        ]
+      }
+    },
+    {
+      "patient_id": "DT-2210",
+      "mrn": "MRN-31190-11",
+      "name": "Imran Qureshi",
+      "age": 38,
+      "sex": "Male",
+      "date_of_birth": "1988-08-09",
+      "blood_group": "A+",
+      "primary_condition": "Impaired glucose tolerance (prediabetes)",
+      "condition_code": "R73.03",
+      "care_setting": "Corporate Preventive Health Programme",
+      "care_team": {
+        "primary_physician": "Dr. Neha Kulkarni, MD (Family Medicine)",
+        "diabetes_educator": "Nurse Pratiksha Nair, CDE",
+        "dietitian": "Ms. Farah Siddiqui, RD"
+      },
+      "is_demo_patient": false,
+      "ehr": {
+        "demographics": {
+          "age": 38,
+          "sex": "Male",
+          "height_cm": 178,
+          "weight_kg": 82.4,
+          "bmi": 26.0,
+          "waist_cm": 92,
+          "occupation": "Logistics operations lead",
+          "smoking_status": "Former smoker (quit 2021)",
+          "alcohol": "Social, 4-6 units/week",
+          "diet_pattern": "Non-vegetarian, irregular meal timing",
+          "city": "Hyderabad"
+        },
+        "diabetes": {
+          "diagnosis_year": 2025,
+          "duration_years": 1.2,
+          "status": "Impaired glucose tolerance (prediabetes)",
+          "management": "Lifestyle intervention, no glucose-lowering medication",
+          "hypoglycaemia_episodes_12m": 0,
+          "prior_dka_hhs": false
+        },
+        "diagnoses": [
+          {
+            "code": "R73.03",
+            "name": "Prediabetes (impaired glucose tolerance)",
+            "diagnosed": "2025-07-30",
+            "status": "active"
+          },
+          {
+            "code": "E66.3",
+            "name": "Overweight",
+            "diagnosed": "2024-02-14",
+            "status": "active"
+          },
+          {
+            "code": "F41.1",
+            "name": "Generalised anxiety disorder, mild",
+            "diagnosed": "2024-06-05",
+            "status": "active"
+          }
+        ],
+        "medications": [
+          {
+            "name": "Vitamin D3",
+            "dose": "60000 IU",
+            "route": "oral",
+            "frequency": "once weekly",
+            "started": "2026-01-12",
+            "status": "current",
+            "class": "Supplement",
+            "indication": "Vitamin D deficiency",
+            "adherence": 0.7
+          },
+          {
+            "name": "Escitalopram",
+            "dose": "5 mg",
+            "route": "oral",
+            "frequency": "once daily",
+            "started": "2024-07-01",
+            "status": "discontinued",
+            "class": "SSRI",
+            "indication": "Anxiety",
+            "stopped": "2025-10-20",
+            "reason": "Symptom remission with therapy"
+          }
+        ],
+        "lab_results": [
+          {
+            "test": "HbA1c",
+            "value": 6.1,
+            "unit": "%",
+            "collected": "2026-07-22",
+            "reference": "4.0-5.6",
+            "trend": [
+              {
+                "collected": "2025-07-30",
+                "value": 6.3
+              },
+              {
+                "collected": "2026-01-18",
+                "value": 6.2
+              },
+              {
+                "collected": "2026-07-22",
+                "value": 6.1
+              }
+            ]
+          },
+          {
+            "test": "Fasting plasma glucose",
+            "value": 118,
+            "unit": "mg/dL",
+            "collected": "2026-07-22",
+            "reference": "70-99"
+          },
+          {
+            "test": "2-hour OGTT glucose",
+            "value": 168,
+            "unit": "mg/dL",
+            "collected": "2026-07-22",
+            "reference": "<140"
+          },
+          {
+            "test": "Fasting insulin",
+            "value": 12.1,
+            "unit": "uIU/mL",
+            "collected": "2026-07-22",
+            "reference": "2.6-24.9"
+          },
+          {
+            "test": "LDL cholesterol",
+            "value": 116,
+            "unit": "mg/dL",
+            "collected": "2026-07-22",
+            "reference": "<100"
+          },
+          {
+            "test": "HDL cholesterol",
+            "value": 44,
+            "unit": "mg/dL",
+            "collected": "2026-07-22",
+            "reference": ">40"
+          },
+          {
+            "test": "Triglycerides",
+            "value": 132,
+            "unit": "mg/dL",
+            "collected": "2026-07-22",
+            "reference": "<150"
+          },
+          {
+            "test": "Serum creatinine",
+            "value": 0.88,
+            "unit": "mg/dL",
+            "collected": "2026-07-22",
+            "reference": "0.70-1.30"
+          },
+          {
+            "test": "eGFR",
+            "value": 104,
+            "unit": "mL/min/1.73m^2",
+            "collected": "2026-07-22",
+            "reference": ">90"
+          },
+          {
+            "test": "Urine albumin/creatinine ratio",
+            "value": 7,
+            "unit": "mg/g",
+            "collected": "2026-07-22",
+            "reference": "<30"
+          }
+        ],
+        "vitals_history": {
+          "blood_pressure": [
+            {
+              "date": "2026-07-22",
+              "systolic": 126,
+              "diastolic": 80
+            },
+            {
+              "date": "2026-01-18",
+              "systolic": 129,
+              "diastolic": 82
+            },
+            {
+              "date": "2025-07-30",
+              "systolic": 132,
+              "diastolic": 84
+            }
+          ],
+          "resting_heart_rate": 63,
+          "weight_trend_kg": [
+            {
+              "date": "2025-07-30",
+              "value": 86.9
+            },
+            {
+              "date": "2026-01-18",
+              "value": 84.1
+            },
+            {
+              "date": "2026-07-22",
+              "value": 82.4
+            }
+          ]
+        },
+        "family_history": [
+          {
+            "relation": "Mother",
+            "condition": "Type 2 diabetes",
+            "age_at_onset": 57
+          },
+          {
+            "relation": "Maternal uncle",
+            "condition": "Type 2 diabetes",
+            "age_at_onset": 49
+          }
+        ],
+        "risk_factors": [
+          "First-degree relative with type 2 diabetes",
+          "Overweight with central adiposity",
+          "Irregular meal timing with late heavy dinners",
+          "Former smoker"
+        ],
+        "previous_glucose_instability": {
+          "source": "Prior 14-day CGM report (2026-09-01 to 2026-09-14)",
+          "mean_glucose_mgdl": 121,
+          "coefficient_of_variation_pct": 22.7,
+          "time_in_range_70_180_pct": 91.4,
+          "time_above_180_pct": 7.9,
+          "time_below_70_pct": 0.4,
+          "hyperglycaemic_episodes_14d": 2,
+          "estimated_gmi_pct": 5.9
+        },
+        "allergies": [
+          "No known drug allergies"
+        ],
+        "immunizations": [
+          {
+            "name": "Influenza (quadrivalent)",
+            "date": "2025-09-30"
+          }
+        ],
+        "lifestyle": {
+          "activity_level": "Moderately active (recreational cricket, gym 3x/week)",
+          "average_daily_steps": 9100,
+          "average_sleep_hours": 7.0,
+          "sleep_quality": "Generally good, delayed sleep onset on weekends",
+          "meal_pattern": "Breakfast often skipped, lunch 14:00, dinner 21:30",
+          "caffeine": "2 cups/day",
+          "stress": "Moderate, shift-dependent",
+          "average_hrv_ms": 62
+        }
+      },
+      "devices": [
+        {
+          "type": "Continuous glucose monitor",
+          "model": "Dexcom Stelo (OTC)",
+          "site": "Right upper arm",
+          "worn_since": "2026-09-20",
+          "sample_interval_min": 5,
+          "status": "active"
+        },
+        {
+          "type": "Wrist wearable",
+          "model": "Garmin Vivosmart 5",
+          "worn_since": "2025-04-11",
+          "sample_interval_min": 5,
+          "status": "active"
+        }
+      ],
+      "physiology": {
+        "seed": 221007,
+        "fasting_glucose_mgdl": 124,
+        "glucose_floor_mgdl": 72,
+        "insulin_sensitivity": 0.88,
+        "cgm_noise_mgdl": 2.4,
+        "carb_response_mgdl_per_g": 0.42,
+        "med_hepatic_output_factor": 0.95,
+        "med_postprandial_factor": 1.0,
+        "resting_hr_bpm": 63,
+        "hrv_baseline_ms": 62,
+        "daily_steps_baseline": 9100,
+        "sleep_duration_baseline_h": 7.0,
+        "sleep_efficiency_baseline": 0.88,
+        "sleep_deep_fraction_baseline": 0.2,
+        "spo2_baseline_pct": 97.2,
+        "weekend_activity_factor": 1.18,
+        "variability_scale": 0.8
+      },
+      "scenario": {
+        "meals": [
+          {
+            "day_offset": 0,
+            "clock": "11:10",
+            "carbs_g": 58,
+            "label": "Brunch — egg bhurji, 2 paratha (breakfast skipped)",
+            "logged": true
+          },
+          {
+            "day_offset": 0,
+            "clock": "16:20",
+            "carbs_g": 34,
+            "label": "Snack — biscuits and chai at warehouse site",
+            "logged": false
+          },
+          {
+            "day_offset": 0,
+            "clock": "21:40",
+            "carbs_g": 92,
+            "label": "Late dinner — chicken biryani, raita",
+            "logged": true
+          },
+          {
+            "day_offset": -1,
+            "clock": "13:50",
+            "carbs_g": 78,
+            "label": "Lunch — canteen meals",
+            "logged": true
+          },
+          {
+            "day_offset": -1,
+            "clock": "21:15",
+            "carbs_g": 86,
+            "label": "Dinner — biryani",
+            "logged": true
+          },
+          {
+            "day_offset": -2,
+            "clock": "09:30",
+            "carbs_g": 56,
+            "label": "Breakfast — omelette toast",
+            "logged": true
+          },
+          {
+            "day_offset": -2,
+            "clock": "14:10",
+            "carbs_g": 82,
+            "label": "Lunch — rice, fish curry",
+            "logged": true
+          },
+          {
+            "day_offset": -2,
+            "clock": "21:00",
+            "carbs_g": 78,
+            "label": "Dinner — kebab, naan",
+            "logged": true
+          }
+        ],
+        "sleep_nights": [
+          {
+            "day_offset": 0,
+            "bed": "00:25",
+            "wake": "07:10",
+            "efficiency": 0.87,
+            "deep_fraction": 0.19,
+            "awakenings": 1,
+            "note": "Late shift finish at warehouse"
+          },
+          {
+            "day_offset": -1,
+            "bed": "23:20",
+            "wake": "07:00",
+            "efficiency": 0.9,
+            "deep_fraction": 0.21,
+            "awakenings": 1,
+            "note": ""
+          }
+        ],
+        "activity_blocks": [
+          {
+            "day_offset": 0,
+            "start": "08:00",
+            "end": "10:40",
+            "intensity": "moderate",
+            "steps_per_min": 38,
+            "label": "Warehouse floor rounds"
+          },
+          {
+            "day_offset": 0,
+            "start": "12:00",
+            "end": "15:30",
+            "intensity": "light",
+            "steps_per_min": 22,
+            "label": "Desk work, dispatch planning"
+          },
+          {
+            "day_offset": -1,
+            "start": "18:20",
+            "end": "19:35",
+            "intensity": "vigorous",
+            "steps_per_min": 96,
+            "label": "Gym session"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "patient_id": "DT-1047",
+  "interval_minutes": 5,
+  "scenario_day": "2026-10-04",
+  "start": "2026-10-01T15:00:00",
+  "end": "2026-10-04T15:00:00",
+  "rows": 865,
+  "meals": [
+    {
+      "datetime": "2026-10-01T20:15:00",
+      "clock": "20:15",
+      "day_offset": -3,
+      "label": "Dinner",
+      "carbs_g": 62,
+      "logged_in_app": false
+    },
+    {
+      "datetime": "2026-10-02T07:55:00",
+      "clock": "07:55",
+      "day_offset": -2,
+      "label": "Breakfast \u2014 oats upma, fruit",
+      "carbs_g": 62.0,
+      "logged_in_app": true
+    },
+    {
+      "datetime": "2026-10-02T12:50:00",
+      "clock": "12:50",
+      "day_offset": -2,
+      "label": "Lunch \u2014 rice, rajma, salad",
+      "carbs_g": 96.0,
+      "logged_in_app": true
+    },
+    {
+      "datetime": "2026-10-02T19:55:00",
+      "clock": "19:55",
+      "day_offset": -2,
+      "label": "Dinner \u2014 chapati, dal, curd",
+      "carbs_g": 80.0,
+      "logged_in_app": true
+    },
+    {
+      "datetime": "2026-10-03T08:15:00",
+      "clock": "08:15",
+      "day_offset": -1,
+      "label": "Breakfast \u2014 idli, sambar",
+      "carbs_g": 58.0,
+      "logged_in_app": true
+    },
+    {
+      "datetime": "2026-10-03T13:10:00",
+      "clock": "13:10",
+      "day_offset": -1,
+      "label": "Lunch \u2014 canteen thali",
+      "carbs_g": 100.0,
+      "logged_in_app": true
+    },
+    {
+      "datetime": "2026-10-03T17:20:00",
+      "clock": "17:20",
+      "day_offset": -1,
+      "label": "Evening snack \u2014 tea, biscuits",
+      "carbs_g": 32.0,
+      "logged_in_app": false
+    },
+    {
+      "datetime": "2026-10-03T20:40:00",
+      "clock": "20:40",
+      "day_offset": -1,
+      "label": "Dinner \u2014 chapati, mixed vegetable curry, rice",
+      "carbs_g": 84.0,
+      "logged_in_app": true
+    },
+    {
+      "datetime": "2026-10-04T08:05:00",
+      "clock": "08:05",
+      "day_offset": 0,
+      "label": "Breakfast \u2014 vegetable poha, curd, sweetened chai",
+      "carbs_g": 42.0,
+      "logged_in_app": true
+    },
+    {
+      "datetime": "2026-10-04T10:40:00",
+      "clock": "10:40",
+      "day_offset": 0,
+      "label": "Mid-morning snack \u2014 tea and biscuits at desk",
+      "carbs_g": 24.0,
+      "logged_in_app": true
+    },
+    {
+      "datetime": "2026-10-04T12:35:00",
+      "clock": "12:35",
+      "day_offset": 0,
+      "label": "Lunch \u2014 steamed rice, dal, chicken curry, sweetened buttermilk",
+      "carbs_g": 100.0,
+      "logged_in_app": true
+    }
+  ],
+  "sleep_nights": [
+    {
+      "night_of": "2026-10-01",
+      "bed_time": "22:39",
+      "wake_time": "06:20",
+      "time_in_bed_h": 7.7,
+      "sleep_duration_h": 6.5,
+      "efficiency": 0.85,
+      "deep_fraction": 0.13,
+      "rem_fraction": 0.21,
+      "awakenings": 1,
+      "mean_hr_bpm": 62,
+      "mean_hrv_ms": 57,
+      "mean_glucose_mgdl": 136,
+      "note": "Typical work night"
+    },
+    {
+      "night_of": "2026-10-02",
+      "bed_time": "22:49",
+      "wake_time": "06:25",
+      "time_in_bed_h": 7.6,
+      "sleep_duration_h": 6.2,
+      "efficiency": 0.82,
+      "deep_fraction": 0.13,
+      "rem_fraction": 0.15,
+      "awakenings": 2,
+      "mean_hr_bpm": 62,
+      "mean_hrv_ms": 58,
+      "mean_glucose_mgdl": 135,
+      "note": "Typical work night"
+    },
+    {
+      "night_of": "2026-10-03",
+      "bed_time": "23:25",
+      "wake_time": "05:50",
+      "time_in_bed_h": 6.3,
+      "sleep_duration_h": 4.8,
+      "efficiency": 0.75,
+      "deep_fraction": 0.11,
+      "rem_fraction": 0.12,
+      "awakenings": 5,
+      "mean_hr_bpm": 62,
+      "mean_hrv_ms": 51,
+      "mean_glucose_mgdl": 139,
+      "note": "Escalation call until 23:20; fragmented sleep, five awakenings"
+    }
+  ],
+  "activity_blocks": [
+    {
+      "day_offset": 0,
+      "start": "09:20",
+      "end": "12:25",
+      "intensity": "sedentary",
+      "label": "Back-to-back release reviews \u2014 no walking break taken"
+    },
+    {
+      "day_offset": 0,
+      "start": "15:10",
+      "end": "15:45",
+      "intensity": "light",
+      "label": "Short walk after glucose alert"
+    },
+    {
+      "day_offset": -1,
+      "start": "18:30",
+      "end": "19:10",
+      "intensity": "moderate",
+      "label": "Evening walk with family"
+    }
+  ],
+  "generator_params": {
+    "seed": 104701,
+    "fasting_glucose_mgdl": 145,
+    "glucose_floor_mgdl": 84,
+    "insulin_sensitivity": 0.66,
+    "cgm_noise_mgdl": 2.8,
+    "carb_response_mgdl_per_g": 0.5,
+    "med_hepatic_output_factor": 0.95,
+    "med_postprandial_factor": 0.92,
+    "resting_hr_bpm": 71,
+    "hrv_baseline_ms": 47,
+    "daily_steps_baseline": 5200,
+    "sleep_duration_baseline_h": 6.2,
+    "sleep_efficiency_baseline": 0.82,
+    "sleep_deep_fraction_baseline": 0.15,
+    "spo2_baseline_pct": 96.6,
+    "weekend_activity_factor": 0.86,
+    "variability_scale": 1.25
+  },
+  "classification": "SYNTHETIC \u2014 generated, not measured",
+  "generated_at": "2026-10-04T04:54:10Z",
+  "generator": "backend/services/synthetic_data.py",
+  "sampling_interval_minutes": 5,
+  "signals": [
+    {
+      "column": "glucose_mgdl",
+      "device": "Continuous glucose monitor",
+      "precision": "integer mg/dL"
+    },
+    {
+      "column": "heart_rate_bpm",
+      "device": "Wrist wearable (PPG)",
+      "precision": "integer bpm"
+    },
+    {
+      "column": "hrv_rmssd_ms",
+      "device": "Wrist wearable (PPG)",
+      "precision": "integer ms"
+    },
+    {
+      "column": "steps_5min",
+      "device": "Wrist wearable (accelerometer)",
+      "precision": "integer steps"
+    },
+    {
+      "column": "activity_met",
+      "device": "Wrist wearable",
+      "precision": "0.1 MET"
+    },
+    {
+      "column": "spo2_pct",
+      "device": "Wrist wearable (SpO\u2082)",
+      "precision": "integer %"
+    },
+    {
+      "column": "sleep_stage",
+      "device": "Wrist wearable (hypnogram)",
+      "precision": "categorical"
+    }
+  ],
+  "contains_real_patient_data": false,
+  "personal_baseline": {
+    "window_start": "2026-10-01T15:00:00",
+    "window_end": "2026-10-03T14:55:00",
+    "window_hours": 48.0,
+    "samples": 576,
+    "glucose_median": 144.0,
+    "glucose_mean": 151.50694444444446,
+    "glucose_p10": 131.0,
+    "glucose_p90": 184.0,
+    "glucose_std": 21.637398991284158,
+    "glucose_cv_pct": 14.281456913163673,
+    "glucose_median_daytime": 152.0,
+    "hr_resting_median": 79.0,
+    "hr_sleep_median": 62.0,
+    "hrv_daytime_median": 42.0,
+    "daily_steps_median": 5198.0,
+    "sleep_duration_median_h": 6.2,
+    "sleep_efficiency_median": 0.82,
+    "overnight_hrv_median": 57.0,
+    "time_in_range_pct": 84.89583333333334,
+    "time_above_180_pct": 15.104166666666666,
+    "hba1c_pct": 7.4,
+    "bmi": 29.1,
+    "age": 47.0,
+    "min_hours": 12.0
+  },
+  "habitual_meals": [
+    {
+      "name": "breakfast",
+      "hour": 8.08,
+      "carbs_g": 60.0,
+      "weight": 0.857,
+      "width_h": 1.27,
+      "observations": 2
+    },
+    {
+      "name": "lunch",
+      "hour": 13.0,
+      "carbs_g": 98.0,
+      "weight": 1.4,
+      "width_h": 1.73,
+      "observations": 2
+    },
+    {
+      "name": "dinner",
+      "hour": 19.92,
+      "carbs_g": 80.0,
+      "weight": 1.143,
+      "width_h": 1.51,
+      "observations": 1
+    }
+  ]
+}

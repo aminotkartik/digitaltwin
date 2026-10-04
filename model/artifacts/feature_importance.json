@@ -1,0 +1,934 @@
+{
+  "method": "permutation importance (ROC-AUC drop), 6 repeats, held-out patients",
+  "n_samples_used": 4000,
+  "primary_model": "xgboost-3.x-hist",
+  "primary_kind": "gradient_boosting",
+  "primary": [
+    {
+      "feature": "minutes_to_next_habitual_meal",
+      "importance_mean": 0.0221,
+      "importance_std": 0.00203
+    },
+    {
+      "feature": "expected_meal_proximity",
+      "importance_mean": 0.0148,
+      "importance_std": 0.001
+    },
+    {
+      "feature": "prior_time_in_range_pct",
+      "importance_mean": 0.01146,
+      "importance_std": 0.00228
+    },
+    {
+      "feature": "hour_cos",
+      "importance_mean": 0.00671,
+      "importance_std": 0.0008
+    },
+    {
+      "feature": "minutes_since_last_meal",
+      "importance_mean": 0.0064,
+      "importance_std": 0.00045
+    },
+    {
+      "feature": "last_meal_carbs_g",
+      "importance_mean": 0.00258,
+      "importance_std": 0.00018
+    },
+    {
+      "feature": "steps_today",
+      "importance_mean": 0.00167,
+      "importance_std": 0.00067
+    },
+    {
+      "feature": "glucose_mean_12h",
+      "importance_mean": 0.00159,
+      "importance_std": 0.00046
+    },
+    {
+      "feature": "hr_dev_personal",
+      "importance_mean": 0.00154,
+      "importance_std": 0.00063
+    },
+    {
+      "feature": "glucose_above_180_24h_pct",
+      "importance_mean": 0.00136,
+      "importance_std": 0.00027
+    },
+    {
+      "feature": "sedentary_hours_ewma",
+      "importance_mean": 0.00127,
+      "importance_std": 0.00032
+    },
+    {
+      "feature": "diabetes_duration_years",
+      "importance_mean": 0.00109,
+      "importance_std": 0.00019
+    },
+    {
+      "feature": "hours_since_wake",
+      "importance_mean": 0.00109,
+      "importance_std": 0.00013
+    },
+    {
+      "feature": "glucose_mean_180",
+      "importance_mean": 0.00076,
+      "importance_std": 0.00039
+    },
+    {
+      "feature": "hour_sin",
+      "importance_mean": 0.00071,
+      "importance_std": 0.00022
+    },
+    {
+      "feature": "glucose_max_180",
+      "importance_mean": 0.00056,
+      "importance_std": 0.0002
+    },
+    {
+      "feature": "hdl_cholesterol",
+      "importance_mean": 0.00053,
+      "importance_std": 0.0001
+    },
+    {
+      "feature": "n_glucose_meds",
+      "importance_mean": 0.00048,
+      "importance_std": 0.00022
+    },
+    {
+      "feature": "activity_dev_personal_pct",
+      "importance_mean": 0.00048,
+      "importance_std": 0.00025
+    },
+    {
+      "feature": "glucose_delta_180",
+      "importance_mean": 0.00045,
+      "importance_std": 0.00027
+    },
+    {
+      "feature": "diastolic_bp",
+      "importance_mean": 0.00039,
+      "importance_std": 0.00015
+    },
+    {
+      "feature": "carbs_last_24h",
+      "importance_mean": 0.00036,
+      "importance_std": 0.00024
+    },
+    {
+      "feature": "sleep_duration_h",
+      "importance_mean": 0.0003,
+      "importance_std": 0.00025
+    },
+    {
+      "feature": "medication_adherence",
+      "importance_mean": 0.00027,
+      "importance_std": 0.00018
+    },
+    {
+      "feature": "steps_30",
+      "importance_mean": 0.00024,
+      "importance_std": 0.00017
+    },
+    {
+      "feature": "sleep_deficit_h",
+      "importance_mean": 0.00023,
+      "importance_std": 7e-05
+    },
+    {
+      "feature": "sleep_quality_index",
+      "importance_mean": 0.00022,
+      "importance_std": 0.00015
+    },
+    {
+      "feature": "sleep_deep_fraction",
+      "importance_mean": 0.0002,
+      "importance_std": 0.00015
+    },
+    {
+      "feature": "systolic_bp",
+      "importance_mean": 0.00019,
+      "importance_std": 0.00024
+    },
+    {
+      "feature": "glucose_slope_15",
+      "importance_mean": 0.00018,
+      "importance_std": 6e-05
+    },
+    {
+      "feature": "hrv_mean_180",
+      "importance_mean": 0.00017,
+      "importance_std": 0.00026
+    },
+    {
+      "feature": "triglycerides",
+      "importance_mean": 0.00016,
+      "importance_std": 0.00011
+    },
+    {
+      "feature": "hr_current",
+      "importance_mean": 0.00016,
+      "importance_std": 0.00029
+    },
+    {
+      "feature": "hrv_dev_personal_pct",
+      "importance_mean": 0.00015,
+      "importance_std": 7e-05
+    },
+    {
+      "feature": "glucose_dev_personal_pct",
+      "importance_mean": 0.00014,
+      "importance_std": 0.00028
+    },
+    {
+      "feature": "fasting_glucose_mgdl",
+      "importance_mean": 0.0001,
+      "importance_std": 0.00035
+    },
+    {
+      "feature": "sedentary_minutes_continuous",
+      "importance_mean": 0.0001,
+      "importance_std": 0.00016
+    },
+    {
+      "feature": "glucose_std_60",
+      "importance_mean": 9e-05,
+      "importance_std": 3e-05
+    },
+    {
+      "feature": "steps_60",
+      "importance_mean": 8e-05,
+      "importance_std": 0.00016
+    },
+    {
+      "feature": "hba1c_pct",
+      "importance_mean": 7e-05,
+      "importance_std": 8e-05
+    },
+    {
+      "feature": "glucose_acceleration",
+      "importance_mean": 7e-05,
+      "importance_std": 0.00016
+    },
+    {
+      "feature": "glucose_mean_60",
+      "importance_mean": 7e-05,
+      "importance_std": 0.00015
+    },
+    {
+      "feature": "glucose_min_60",
+      "importance_mean": 6e-05,
+      "importance_std": 8e-05
+    },
+    {
+      "feature": "glucose_rate_of_change_15",
+      "importance_mean": 6e-05,
+      "importance_std": 0.00018
+    },
+    {
+      "feature": "sleep_efficiency",
+      "importance_mean": 6e-05,
+      "importance_std": 0.00013
+    },
+    {
+      "feature": "glucose_dev_clock_pct",
+      "importance_mean": 6e-05,
+      "importance_std": 9e-05
+    },
+    {
+      "feature": "waist_cm",
+      "importance_mean": 4e-05,
+      "importance_std": 4e-05
+    },
+    {
+      "feature": "on_sulfonylurea",
+      "importance_mean": 2e-05,
+      "importance_std": 1e-05
+    },
+    {
+      "feature": "prior_time_above_180_pct",
+      "importance_mean": 2e-05,
+      "importance_std": 0.00043
+    },
+    {
+      "feature": "egfr",
+      "importance_mean": 1e-05,
+      "importance_std": 0.00015
+    },
+    {
+      "feature": "on_glp1",
+      "importance_mean": 1e-05,
+      "importance_std": 1e-05
+    },
+    {
+      "feature": "spo2_current",
+      "importance_mean": 1e-05,
+      "importance_std": 0.00016
+    },
+    {
+      "feature": "sleep_awakenings",
+      "importance_mean": 1e-05,
+      "importance_std": 6e-05
+    },
+    {
+      "feature": "is_postprandial",
+      "importance_mean": 1e-05,
+      "importance_std": 1e-05
+    },
+    {
+      "feature": "on_metformin",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "on_sglt2",
+      "importance_mean": 0.0,
+      "importance_std": 1e-05
+    },
+    {
+      "feature": "on_insulin",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "prior_hyper_episodes",
+      "importance_mean": 0.0,
+      "importance_std": 9e-05
+    },
+    {
+      "feature": "glucose_delta_60",
+      "importance_mean": -0.0,
+      "importance_std": 5e-05
+    },
+    {
+      "feature": "sex_male",
+      "importance_mean": -1e-05,
+      "importance_std": 1e-05
+    },
+    {
+      "feature": "prior_cv_pct",
+      "importance_mean": -1e-05,
+      "importance_std": 6e-05
+    },
+    {
+      "feature": "hrv_current",
+      "importance_mean": -2e-05,
+      "importance_std": 0.0001
+    },
+    {
+      "feature": "glucose_current",
+      "importance_mean": -3e-05,
+      "importance_std": 0.00017
+    },
+    {
+      "feature": "hr_mean_60",
+      "importance_mean": -3e-05,
+      "importance_std": 0.00012
+    },
+    {
+      "feature": "activity_met_60",
+      "importance_mean": -3e-05,
+      "importance_std": 9e-05
+    },
+    {
+      "feature": "activity_change_pct",
+      "importance_mean": -3e-05,
+      "importance_std": 6e-05
+    },
+    {
+      "feature": "glucose_slope_30",
+      "importance_mean": -5e-05,
+      "importance_std": 4e-05
+    },
+    {
+      "feature": "hr_delta_60",
+      "importance_mean": -5e-05,
+      "importance_std": 7e-05
+    },
+    {
+      "feature": "glucose_max_60",
+      "importance_mean": -7e-05,
+      "importance_std": 0.00015
+    },
+    {
+      "feature": "family_history_diabetes",
+      "importance_mean": -0.00014,
+      "importance_std": 0.00011
+    },
+    {
+      "feature": "is_weekend",
+      "importance_mean": -0.00016,
+      "importance_std": 8e-05
+    },
+    {
+      "feature": "steps_180",
+      "importance_mean": -0.00018,
+      "importance_std": 0.00012
+    },
+    {
+      "feature": "age",
+      "importance_mean": -0.0002,
+      "importance_std": 0.00014
+    },
+    {
+      "feature": "bmi",
+      "importance_mean": -0.00022,
+      "importance_std": 6e-05
+    },
+    {
+      "feature": "glucose_slope_60",
+      "importance_mean": -0.00027,
+      "importance_std": 0.00019
+    },
+    {
+      "feature": "hrv_overnight_mean",
+      "importance_mean": -0.00027,
+      "importance_std": 0.00013
+    },
+    {
+      "feature": "hrv_overnight_dev_personal_pct",
+      "importance_mean": -0.00027,
+      "importance_std": 0.00011
+    },
+    {
+      "feature": "glucose_mean_30",
+      "importance_mean": -0.00038,
+      "importance_std": 0.00014
+    },
+    {
+      "feature": "glucose_cv_24h",
+      "importance_mean": -0.00042,
+      "importance_std": 0.0002
+    },
+    {
+      "feature": "glucose_range_180",
+      "importance_mean": -0.00057,
+      "importance_std": 0.00016
+    },
+    {
+      "feature": "hypoglycaemia_episodes_12m",
+      "importance_mean": -0.0006,
+      "importance_std": 0.00011
+    },
+    {
+      "feature": "glucose_std_180",
+      "importance_mean": -0.0006,
+      "importance_std": 0.00013
+    },
+    {
+      "feature": "glucose_cv_dev_personal",
+      "importance_mean": -0.00075,
+      "importance_std": 0.0002
+    },
+    {
+      "feature": "glucose_cv_180",
+      "importance_mean": -0.00092,
+      "importance_std": 0.00016
+    }
+  ],
+  "baseline_logistic_coefficients": [
+    {
+      "feature": "glucose_dev_personal_pct",
+      "standardised_coefficient": -1.8343,
+      "odds_ratio": 0.1597,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_std_180",
+      "standardised_coefficient": -1.7681,
+      "odds_ratio": 0.1707,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_mean_60",
+      "standardised_coefficient": -1.4045,
+      "odds_ratio": 0.2455,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_cv_180",
+      "standardised_coefficient": 1.3653,
+      "odds_ratio": 3.9167,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "expected_meal_proximity",
+      "standardised_coefficient": 1.3321,
+      "odds_ratio": 3.7892,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_current",
+      "standardised_coefficient": 1.0808,
+      "odds_ratio": 2.947,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "hour_cos",
+      "standardised_coefficient": -1.025,
+      "odds_ratio": 0.3588,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_mean_12h",
+      "standardised_coefficient": 0.9442,
+      "odds_ratio": 2.5707,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "hr_current",
+      "standardised_coefficient": 0.8056,
+      "odds_ratio": 2.2381,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_mean_180",
+      "standardised_coefficient": 0.7723,
+      "odds_ratio": 2.1647,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "hrv_overnight_mean",
+      "standardised_coefficient": 0.7701,
+      "odds_ratio": 2.16,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "hr_mean_60",
+      "standardised_coefficient": -0.7349,
+      "odds_ratio": 0.4795,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "on_metformin",
+      "standardised_coefficient": 0.6174,
+      "odds_ratio": 1.8541,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "systolic_bp",
+      "standardised_coefficient": 0.5929,
+      "odds_ratio": 1.8092,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "hr_dev_personal",
+      "standardised_coefficient": 0.5752,
+      "odds_ratio": 1.7775,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "hrv_mean_180",
+      "standardised_coefficient": -0.5427,
+      "odds_ratio": 0.5812,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_range_180",
+      "standardised_coefficient": -0.485,
+      "odds_ratio": 0.6157,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_max_60",
+      "standardised_coefficient": 0.4673,
+      "odds_ratio": 1.5957,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "steps_30",
+      "standardised_coefficient": -0.4483,
+      "odds_ratio": 0.6387,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "prior_time_in_range_pct",
+      "standardised_coefficient": 0.439,
+      "odds_ratio": 1.5511,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "prior_time_above_180_pct",
+      "standardised_coefficient": -0.439,
+      "odds_ratio": 0.6447,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_cv_dev_personal",
+      "standardised_coefficient": -0.4293,
+      "odds_ratio": 0.651,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "hrv_current",
+      "standardised_coefficient": -0.4066,
+      "odds_ratio": 0.6659,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "prior_cv_pct",
+      "standardised_coefficient": 0.3707,
+      "odds_ratio": 1.4488,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "is_postprandial",
+      "standardised_coefficient": 0.3633,
+      "odds_ratio": 1.4381,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_max_180",
+      "standardised_coefficient": 0.3568,
+      "odds_ratio": 1.4287,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "activity_dev_personal_pct",
+      "standardised_coefficient": -0.3524,
+      "odds_ratio": 0.703,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "age",
+      "standardised_coefficient": 0.3326,
+      "odds_ratio": 1.3946,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_delta_60",
+      "standardised_coefficient": 0.3242,
+      "odds_ratio": 1.383,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_delta_180",
+      "standardised_coefficient": -0.3178,
+      "odds_ratio": 0.7277,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "hba1c_pct",
+      "standardised_coefficient": 0.3132,
+      "odds_ratio": 1.3678,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "steps_today",
+      "standardised_coefficient": 0.3092,
+      "odds_ratio": 1.3623,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "diastolic_bp",
+      "standardised_coefficient": -0.3059,
+      "odds_ratio": 0.7365,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_dev_clock_pct",
+      "standardised_coefficient": 0.3009,
+      "odds_ratio": 1.3511,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "fasting_glucose_mgdl",
+      "standardised_coefficient": 0.282,
+      "odds_ratio": 1.3258,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "waist_cm",
+      "standardised_coefficient": 0.2786,
+      "odds_ratio": 1.3212,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_above_180_24h_pct",
+      "standardised_coefficient": -0.2447,
+      "odds_ratio": 0.7829,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "last_meal_carbs_g",
+      "standardised_coefficient": 0.2434,
+      "odds_ratio": 1.2756,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "sleep_quality_index",
+      "standardised_coefficient": 0.2413,
+      "odds_ratio": 1.2729,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "sleep_duration_h",
+      "standardised_coefficient": -0.2402,
+      "odds_ratio": 0.7865,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_std_60",
+      "standardised_coefficient": -0.2358,
+      "odds_ratio": 0.7899,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "egfr",
+      "standardised_coefficient": 0.2304,
+      "odds_ratio": 1.2591,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_cv_24h",
+      "standardised_coefficient": 0.2286,
+      "odds_ratio": 1.2569,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "bmi",
+      "standardised_coefficient": -0.2235,
+      "odds_ratio": 0.7997,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "steps_180",
+      "standardised_coefficient": 0.2204,
+      "odds_ratio": 1.2465,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "sedentary_hours_ewma",
+      "standardised_coefficient": 0.2085,
+      "odds_ratio": 1.2318,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "sex_male",
+      "standardised_coefficient": -0.2075,
+      "odds_ratio": 0.8126,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_rate_of_change_15",
+      "standardised_coefficient": 0.206,
+      "odds_ratio": 1.2288,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "sleep_deep_fraction",
+      "standardised_coefficient": -0.2016,
+      "odds_ratio": 0.8175,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "diabetes_duration_years",
+      "standardised_coefficient": 0.1867,
+      "odds_ratio": 1.2053,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "minutes_since_last_meal",
+      "standardised_coefficient": 0.1836,
+      "odds_ratio": 1.2015,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "sleep_awakenings",
+      "standardised_coefficient": 0.1798,
+      "odds_ratio": 1.1969,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "spo2_current",
+      "standardised_coefficient": -0.1769,
+      "odds_ratio": 0.8378,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "hour_sin",
+      "standardised_coefficient": -0.1554,
+      "odds_ratio": 0.856,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "sleep_efficiency",
+      "standardised_coefficient": -0.1525,
+      "odds_ratio": 0.8586,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "minutes_to_next_habitual_meal",
+      "standardised_coefficient": 0.1307,
+      "odds_ratio": 1.1396,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_mean_30",
+      "standardised_coefficient": -0.1252,
+      "odds_ratio": 0.8824,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "on_sglt2",
+      "standardised_coefficient": 0.1244,
+      "odds_ratio": 1.1325,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "hrv_overnight_dev_personal_pct",
+      "standardised_coefficient": -0.1208,
+      "odds_ratio": 0.8862,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_slope_60",
+      "standardised_coefficient": 0.1172,
+      "odds_ratio": 1.1243,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "on_glp1",
+      "standardised_coefficient": -0.1139,
+      "odds_ratio": 0.8923,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "n_glucose_meds",
+      "standardised_coefficient": 0.1067,
+      "odds_ratio": 1.1126,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "family_history_diabetes",
+      "standardised_coefficient": -0.1008,
+      "odds_ratio": 0.9041,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "activity_met_60",
+      "standardised_coefficient": 0.09,
+      "odds_ratio": 1.0941,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "carbs_last_24h",
+      "standardised_coefficient": -0.0863,
+      "odds_ratio": 0.9174,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "hdl_cholesterol",
+      "standardised_coefficient": -0.082,
+      "odds_ratio": 0.9213,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "is_weekend",
+      "standardised_coefficient": 0.0815,
+      "odds_ratio": 1.0849,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_slope_15",
+      "standardised_coefficient": 0.0801,
+      "odds_ratio": 1.0834,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "prior_hyper_episodes",
+      "standardised_coefficient": 0.08,
+      "odds_ratio": 1.0832,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "on_sulfonylurea",
+      "standardised_coefficient": -0.0785,
+      "odds_ratio": 0.9245,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "activity_change_pct",
+      "standardised_coefficient": 0.0742,
+      "odds_ratio": 1.077,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "sedentary_minutes_continuous",
+      "standardised_coefficient": 0.0725,
+      "odds_ratio": 1.0752,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "triglycerides",
+      "standardised_coefficient": -0.0652,
+      "odds_ratio": 0.9369,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "hours_since_wake",
+      "standardised_coefficient": -0.0648,
+      "odds_ratio": 0.9373,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "medication_adherence",
+      "standardised_coefficient": 0.0486,
+      "odds_ratio": 1.0497,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "hrv_dev_personal_pct",
+      "standardised_coefficient": 0.044,
+      "odds_ratio": 1.045,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_slope_30",
+      "standardised_coefficient": -0.0411,
+      "odds_ratio": 0.9598,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "sleep_deficit_h",
+      "standardised_coefficient": -0.0352,
+      "odds_ratio": 0.9654,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "hypoglycaemia_episodes_12m",
+      "standardised_coefficient": 0.0349,
+      "odds_ratio": 1.0355,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "on_insulin",
+      "standardised_coefficient": 0.0328,
+      "odds_ratio": 1.0333,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "hr_delta_60",
+      "standardised_coefficient": 0.0218,
+      "odds_ratio": 1.022,
+      "direction": "increases risk"
+    },
+    {
+      "feature": "glucose_min_60",
+      "standardised_coefficient": -0.0139,
+      "odds_ratio": 0.9862,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "steps_60",
+      "standardised_coefficient": -0.0128,
+      "odds_ratio": 0.9873,
+      "direction": "decreases risk"
+    },
+    {
+      "feature": "glucose_acceleration",
+      "standardised_coefficient": 0.011,
+      "odds_ratio": 1.0111,
+      "direction": "increases risk"
+    }
+  ]
+}
