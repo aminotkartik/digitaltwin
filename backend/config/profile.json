@@ -1,0 +1,159 @@
+{
+  "_READ_THIS_FIRST": [
+    "########################################################################",
+    "#  EDIT THIS SECTION WITH YOUR REAL TEAM INFORMATION                   #",
+    "########################################################################",
+    "This file is served verbatim by GET /api/profile and rendered on the",
+    "About / Team page. Replace every PLACEHOLDER value below with your own",
+    "details before submitting the challenge entry.",
+    "",
+    "JSON has no comment syntax, so any key beginning with '_' is ignored by",
+    "the frontend and exists only to carry instructions. You may delete them.",
+    "",
+    "SECURITY: never put API keys, passwords, tokens, private phone numbers,",
+    "home addresses or patient data in this file. It is public by design.",
+    "The Groq key belongs in .env (see .env.example) and is never served."
+  ],
+
+  "product": {
+    "name": "VitalSync",
+    "tagline": "Metabolic Digital Twin Platform",
+    "one_liner": "A clinical digital twin that fuses a patient's longitudinal record with live wearable and CGM signals to forecast a significant blood glucose spike two hours before it happens.",
+    "challenge": "Happiest Health Digital Twin Challenge 2026",
+    "track": "Predictive Clinical Digital Twin",
+    "problem_statement": "Predicting a Significant Blood Glucose Spike 2 Hours in Advance",
+    "clinical_question": "For a person living with Type 2 Diabetes, can a digital twin that fuses historical clinical records with continuous physiological signals forecast a significant glucose elevation early enough to act on?",
+    "target_population": "Adults with Type 2 diabetes or impaired glucose regulation using a continuous glucose monitor and a wrist wearable.",
+    "status": "Prototype for research and demonstration. Not intended for diagnosis or medical decision-making.",
+    "version": "1.0.0",
+    "last_updated": "PLACEHOLDER — set to your submission date (YYYY-MM-DD)"
+  },
+
+  "_team_instructions": "# EDIT THIS SECTION WITH YOUR REAL TEAM INFORMATION — replace each member below.",
+  "team": {
+    "name": "PLACEHOLDER — Team Name",
+    "organisation": "PLACEHOLDER — Your Institution / Company",
+    "location": "PLACEHOLDER — City, Country",
+    "members": [
+      {
+        "name": "PLACEHOLDER — Full Name",
+        "role": "Team Lead · Clinical Digital Twin Design",
+        "responsibilities": [
+          "Clinical problem framing and event definition",
+          "Feature specification with the care pathway",
+          "Demo narrative and judge-facing documentation"
+        ],
+        "background": "PLACEHOLDER — degree, institution, relevant experience",
+        "email": "PLACEHOLDER — use a public or institutional address only",
+        "linkedin": "PLACEHOLDER — https://www.linkedin.com/in/your-profile",
+        "github": "PLACEHOLDER — https://github.com/your-username",
+        "avatar_initials": "PN"
+      },
+      {
+        "name": "PLACEHOLDER — Full Name",
+        "role": "Machine Learning Engineer",
+        "responsibilities": [
+          "Cohort generation and leakage-safe labelling",
+          "Model training, calibration and evaluation",
+          "Explainability (TreeSHAP and permutation importance)"
+        ],
+        "background": "PLACEHOLDER — degree, institution, relevant experience",
+        "email": "PLACEHOLDER",
+        "linkedin": "PLACEHOLDER",
+        "github": "PLACEHOLDER",
+        "avatar_initials": "PN"
+      },
+      {
+        "name": "PLACEHOLDER — Full Name",
+        "role": "Full-Stack Engineer",
+        "responsibilities": [
+          "FastAPI backend and simulation engine",
+          "Clinical dashboard frontend and charting",
+          "Groq interpretation layer with offline fallback"
+        ],
+        "background": "PLACEHOLDER",
+        "email": "PLACEHOLDER",
+        "linkedin": "PLACEHOLDER",
+        "github": "PLACEHOLDER",
+        "avatar_initials": "PN"
+      },
+      {
+        "name": "PLACEHOLDER — Full Name (optional fourth member)",
+        "role": "Data & Validation",
+        "responsibilities": [
+          "Synthetic physiology simulator realism checks",
+          "Data provenance and reproducibility packaging"
+        ],
+        "background": "PLACEHOLDER",
+        "email": "PLACEHOLDER",
+        "linkedin": "PLACEHOLDER",
+        "github": "PLACEHOLDER",
+        "avatar_initials": "PN"
+      }
+    ]
+  },
+
+  "contact": {
+    "_note": "# EDIT THIS SECTION — public contact channels only. No private phone numbers.",
+    "email": "PLACEHOLDER — team@yourdomain.example",
+    "repository": "https://github.com/aminotkartik/digitaltwin",
+    "demo_video": "PLACEHOLDER — link to your unlisted YouTube / Drive video",
+    "live_demo": "PLACEHOLDER — optional hosted URL",
+    "presentation_pdf": "docs/VitalSync_Presentation.pdf",
+    "architecture_pdf": "docs/VitalSync_Architecture.pdf"
+  },
+
+  "technical_stack": {
+    "frontend": ["HTML5", "CSS3 (custom properties, no framework)", "Vanilla JavaScript (ES modules)", "Chart.js 4.4.7 (vendored locally)", "Inline SVG"],
+    "backend": ["Python 3.11", "FastAPI", "Uvicorn", "Pydantic v2 / pydantic-settings"],
+    "data_and_ml": ["pandas", "numpy", "scikit-learn", "XGBoost", "joblib"],
+    "interpretation": ["Groq inference API (llama-3.3-70b-versatile by default, configurable)", "httpx"],
+    "synthetic_data": ["Custom deterministic multi-signal physiology simulator (no third-party dataset)"],
+    "documentation": ["ReportLab (generated PDFs)", "Markdown"],
+    "not_used": ["No TypeScript", "No frontend framework", "No chatbot UI", "No external CDN at runtime"]
+  },
+
+  "data_statement": {
+    "classification": "SYNTHETIC — NOT REAL PATIENT DATA",
+    "summary": "Every patient, signal and outcome in this prototype is generated by a deterministic physiological simulator committed to this repository. No real patient data, no protected health information and no third-party clinical dataset was used at any point.",
+    "generator": "backend/services/synthetic_data.py",
+    "cohort_generator": "datasets/synthetic/generate_cohort.py",
+    "reproducibility": "Fixed seeds; the exact signal behind every screen is written to backend/data/sensor_data/ and described in datasets/synthetic/dataset_metadata.json.",
+    "licence": "CC-BY-4.0 for the generated data and this repository's code."
+  },
+
+  "clinical_disclaimer": {
+    "primary": "Prototype for research and demonstration. Not intended for diagnosis or medical decision-making.",
+    "points": [
+      "All patients, signals and outcomes are synthetic.",
+      "Reported performance is measured on a synthetic validation cohort and is not evidence of clinical performance.",
+      "The system has not been evaluated in a clinical setting and is not a medical device.",
+      "The language-model layer only phrases observations about model output; it never produces a clinical probability.",
+      "Nothing in this prototype replaces assessment by a qualified clinician."
+    ]
+  },
+
+  "acknowledgements": {
+    "_note": "# EDIT THIS SECTION — add mentors, reviewers or clinicians who advised you.",
+    "mentors": ["PLACEHOLDER — Mentor name, role"],
+    "clinical_review": "PLACEHOLDER — optional: clinician who reviewed the feature set and disclaimers",
+    "references": [
+      "International consensus on time in range (ATTD, 2019) — 70–180 mg/dL target range and the 36% coefficient-of-variation stability threshold.",
+      "Nathan DM et al. Translating the A1C assay into estimated average glucose values. Diabetes Care, 2008 — the (mean glucose + 46.7) / 28.7 relationship used to keep HbA1c consistent with the generated traces.",
+      "Lundberg SM, Lee SI. A unified approach to interpreting model predictions (SHAP), NeurIPS 2017.",
+      "Groq inference API documentation — chat completions with JSON response format."
+    ]
+  },
+
+  "milestones": {
+    "_note": "# EDIT THIS SECTION WITH YOUR REAL PROJECT TIMELINE",
+    "items": [
+      {"date": "PLACEHOLDER", "title": "Clinical framing", "detail": "Event definition, horizon and target population agreed."},
+      {"date": "PLACEHOLDER", "title": "Synthetic physiology simulator", "detail": "Deterministic CGM, HR, HRV, steps, sleep and SpO₂ generator with scripted clinical scenarios."},
+      {"date": "PLACEHOLDER", "title": "Feature and fusion layer", "detail": "84 fused features spanning the historical record, live signals and personal baselines."},
+      {"date": "PLACEHOLDER", "title": "Model training and validation", "detail": "Patient-level splits, threshold selection on validation patients, calibration and permutation importance."},
+      {"date": "PLACEHOLDER", "title": "Clinical dashboard", "detail": "Twin state, live monitoring, prediction, explainability, timeline, validation and provenance views."},
+      {"date": "PLACEHOLDER", "title": "Interpretation layer", "detail": "Groq clinical summarisation with a deterministic offline fallback."}
+    ]
+  }
+}

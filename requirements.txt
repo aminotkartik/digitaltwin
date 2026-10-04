@@ -1,0 +1,14 @@
+# VitalSync — root convenience requirements
+#
+# The application requirements live in backend/requirements.txt; installing this
+# file gets you the runtime plus the developer extras used by the repository
+# (test runner and the PDF documentation generator).
+#
+#   python3 -m venv .venv
+#   source .venv/bin/activate        # Windows: .venv\Scripts\activate
+#   pip install -r requirements.txt
+
+-r backend/requirements.txt
+
+# --- developer extras -------------------------------------------------------
+pytest>=8.0
