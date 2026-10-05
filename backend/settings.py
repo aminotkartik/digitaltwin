@@ -11,6 +11,7 @@ event definition stays in one place and can be reviewed by a clinician.
 """
 from __future__ import annotations
 
+from datetime import date
 from functools import lru_cache
 from pathlib import Path
 from typing import List
@@ -99,11 +100,18 @@ class Settings(BaseSettings):
 
     # -- Demo clock --------------------------------------------------------
     # The twin replays a scripted scenario day, so the "current" instant is a
-    # fixed clock time on today's date rather than the wall clock.  This keeps
-    # the clinical narrative identical whenever the prototype is demonstrated.
+    # fixed clock time rather than the wall clock.  This keeps the clinical
+    # narrative identical whenever the prototype is demonstrated.
     demo_stream_end_clock: str = "15:00"     # last sample held by the twin
     demo_now_clock: str = "10:45"            # where the dashboard opens
     demo_simulation_start_clock: str = "09:30"  # where "Start simulation" begins
+    # Calendar date of the scenario day, in ISO form.  Pinning it (instead of
+    # using the machine's date) makes the whole demo bit-reproducible: the
+    # committed provenance files under backend/data/sensor_data/ never churn,
+    # weekday-dependent features stay fixed, and the rehearsed risk arc
+    # (LOW 09:30 -> MODERATE 10:45 -> HIGH 11:15 -> spike 13:45) holds on any
+    # day the judges run it.  Leave empty to follow the machine's date.
+    demo_anchor_date: str = "2026-10-05"
 
     # -- Model selection ---------------------------------------------------
     # "auto" picks the strongest available estimator (XGBoost > HistGradient
@@ -129,6 +137,22 @@ class Settings(BaseSettings):
     def groq_enabled(self) -> bool:
         """Groq is used only when a key is configured and not force-disabled."""
         return bool(self.groq_api_key.strip()) and not self.groq_force_disabled
+
+    @property
+    def scenario_date(self) -> date:
+        """
+        Calendar date of the scripted scenario day.
+
+        Uses ``demo_anchor_date`` when it parses as ISO, otherwise falls back to
+        the machine's date so a typo can never take the prototype down.
+        """
+        raw = (self.demo_anchor_date or "").strip()
+        if raw:
+            try:
+                return date.fromisoformat(raw)
+            except ValueError:
+                print(f"[settings] DEMO_ANCHOR_DATE={raw!r} is not ISO (YYYY-MM-DD); using today")
+        return date.today()
 
     @property
     def steps_per_interval(self) -> int:

@@ -159,7 +159,9 @@ class PatientRepository:
 
     def _materialise(self, profile: Dict[str, Any]) -> PatientRecord:
         patient_id = str(profile["patient_id"])
-        end_time = datetime.combine(date.today(), _clock(settings.demo_stream_end_clock))
+        # Anchored to settings.scenario_date (see DEMO_ANCHOR_DATE) so the demo
+        # day — and therefore the committed provenance files — never drift.
+        end_time = datetime.combine(settings.scenario_date, _clock(settings.demo_stream_end_clock))
         stream = generate_stream(
             patient_id=patient_id,
             physiology=profile.get("physiology", {}),
@@ -256,7 +258,20 @@ class PatientRepository:
                     "habitual_meals": record.baseline.get("habitual_meals", []),
                 }
             )
-            (SENSOR_DIR / f"{record.patient_id}_metadata.json").write_text(json.dumps(metadata, indent=2, default=str))
+            metadata_path = SENSOR_DIR / f"{record.patient_id}_metadata.json"
+            # The generator is deterministic, so a restart produces byte-identical
+            # provenance apart from `generated_at`.  Skip the write in that case to
+            # keep these committed files (and therefore `git status`) clean.
+            if metadata_path.exists():
+                try:
+                    previous = json.loads(metadata_path.read_text())
+                except json.JSONDecodeError:
+                    previous = None
+                if previous is not None:
+                    drift = lambda payload: {k: v for k, v in payload.items() if k != "generated_at"}
+                    if drift(previous) == drift(metadata):
+                        return
+            metadata_path.write_text(json.dumps(metadata, indent=2, default=str))
         except OSError as exc:  # pragma: no cover
             print(f"[patient_service] could not persist sensor data: {exc}")
 

@@ -1,13 +1,13 @@
 {
   "patient_id": "DT-1047",
   "interval_minutes": 5,
-  "scenario_day": "2026-10-04",
-  "start": "2026-10-01T15:00:00",
-  "end": "2026-10-04T15:00:00",
+  "scenario_day": "2026-10-05",
+  "start": "2026-10-02T15:00:00",
+  "end": "2026-10-05T15:00:00",
   "rows": 865,
   "meals": [
     {
-      "datetime": "2026-10-01T20:15:00",
+      "datetime": "2026-10-02T20:15:00",
       "clock": "20:15",
       "day_offset": -3,
       "label": "Dinner",
@@ -15,7 +15,7 @@
       "logged_in_app": false
     },
     {
-      "datetime": "2026-10-02T07:55:00",
+      "datetime": "2026-10-03T07:55:00",
       "clock": "07:55",
       "day_offset": -2,
       "label": "Breakfast \u2014 oats upma, fruit",
@@ -23,7 +23,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-02T12:50:00",
+      "datetime": "2026-10-03T12:50:00",
       "clock": "12:50",
       "day_offset": -2,
       "label": "Lunch \u2014 rice, rajma, salad",
@@ -31,7 +31,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-02T19:55:00",
+      "datetime": "2026-10-03T19:55:00",
       "clock": "19:55",
       "day_offset": -2,
       "label": "Dinner \u2014 chapati, dal, curd",
@@ -39,7 +39,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-03T08:15:00",
+      "datetime": "2026-10-04T08:15:00",
       "clock": "08:15",
       "day_offset": -1,
       "label": "Breakfast \u2014 idli, sambar",
@@ -47,7 +47,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-03T13:10:00",
+      "datetime": "2026-10-04T13:10:00",
       "clock": "13:10",
       "day_offset": -1,
       "label": "Lunch \u2014 canteen thali",
@@ -55,7 +55,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-03T17:20:00",
+      "datetime": "2026-10-04T17:20:00",
       "clock": "17:20",
       "day_offset": -1,
       "label": "Evening snack \u2014 tea, biscuits",
@@ -63,7 +63,7 @@
       "logged_in_app": false
     },
     {
-      "datetime": "2026-10-03T20:40:00",
+      "datetime": "2026-10-04T20:40:00",
       "clock": "20:40",
       "day_offset": -1,
       "label": "Dinner \u2014 chapati, mixed vegetable curry, rice",
@@ -71,7 +71,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-04T08:05:00",
+      "datetime": "2026-10-05T08:05:00",
       "clock": "08:05",
       "day_offset": 0,
       "label": "Breakfast \u2014 vegetable poha, curd, sweetened chai",
@@ -79,7 +79,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-04T10:40:00",
+      "datetime": "2026-10-05T10:40:00",
       "clock": "10:40",
       "day_offset": 0,
       "label": "Mid-morning snack \u2014 tea and biscuits at desk",
@@ -87,7 +87,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-04T12:35:00",
+      "datetime": "2026-10-05T12:35:00",
       "clock": "12:35",
       "day_offset": 0,
       "label": "Lunch \u2014 steamed rice, dal, chicken curry, sweetened buttermilk",
@@ -97,7 +97,7 @@
   ],
   "sleep_nights": [
     {
-      "night_of": "2026-10-01",
+      "night_of": "2026-10-02",
       "bed_time": "22:39",
       "wake_time": "06:20",
       "time_in_bed_h": 7.7,
@@ -112,7 +112,7 @@
       "note": "Typical work night"
     },
     {
-      "night_of": "2026-10-02",
+      "night_of": "2026-10-03",
       "bed_time": "22:49",
       "wake_time": "06:25",
       "time_in_bed_h": 7.6,
@@ -127,7 +127,7 @@
       "note": "Typical work night"
     },
     {
-      "night_of": "2026-10-03",
+      "night_of": "2026-10-04",
       "bed_time": "23:25",
       "wake_time": "05:50",
       "time_in_bed_h": 6.3,
@@ -185,7 +185,7 @@
     "variability_scale": 1.25
   },
   "classification": "SYNTHETIC \u2014 generated, not measured",
-  "generated_at": "2026-10-04T04:54:10Z",
+  "generated_at": "2026-10-05T15:47:06Z",
   "generator": "backend/services/synthetic_data.py",
   "sampling_interval_minutes": 5,
   "signals": [
@@ -227,21 +227,21 @@
   ],
   "contains_real_patient_data": false,
   "personal_baseline": {
-    "window_start": "2026-10-01T15:00:00",
-    "window_end": "2026-10-03T14:55:00",
+    "window_start": "2026-10-02T15:00:00",
+    "window_end": "2026-10-04T14:55:00",
     "window_hours": 48.0,
     "samples": 576,
     "glucose_median": 144.0,
-    "glucose_mean": 151.50694444444446,
+    "glucose_mean": 151.63368055555554,
     "glucose_p10": 131.0,
-    "glucose_p90": 184.0,
-    "glucose_std": 21.637398991284158,
-    "glucose_cv_pct": 14.281456913163673,
+    "glucose_p90": 184.5,
+    "glucose_std": 21.681313422652433,
+    "glucose_cv_pct": 14.298481276202246,
     "glucose_median_daytime": 152.0,
     "hr_resting_median": 79.0,
     "hr_sleep_median": 62.0,
     "hrv_daytime_median": 42.0,
-    "daily_steps_median": 5198.0,
+    "daily_steps_median": 4482.0,
     "sleep_duration_median_h": 6.2,
     "sleep_efficiency_median": 0.82,
     "overnight_hrv_median": 57.0,

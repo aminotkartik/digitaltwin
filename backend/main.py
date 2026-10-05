@@ -18,7 +18,7 @@ from typing import Any, Dict
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from backend.routes import api_router
@@ -162,21 +162,124 @@ def json_safe(errors: Any) -> Any:
 # ---------------------------------------------------------------------------
 INDEX_FILE = FRONTEND_DIR / "index.html"
 
+# Rendered only while the single-page app has not been built yet. It is a plain
+# service-status page, deliberately not a mock-up of the clinical dashboard.
+_API_STATUS_PAGE = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__APP__ — API running</title>
+<style>
+  :root { color-scheme: light; }
+  body { margin: 0; background: #f7f6f3; color: #23272b;
+         font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 24px 40px; }
+  h1 { font-size: 21px; margin: 0 0 4px; letter-spacing: .01em; }
+  p.sub { margin: 0 0 28px; color: #5b6470; }
+  .card { background: #fff; border: 1px solid #e3e1dc; border-radius: 8px; padding: 20px 22px;
+          box-shadow: 0 1px 2px rgba(20,25,30,.04); margin-bottom: 18px; }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+            color: #2f6f4f; background: #f0f7f2; border: 1px solid #d6e8dc; border-radius: 999px;
+            padding: 3px 11px; }
+  .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #4a9d70; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: #6b7280;
+       margin: 0 0 12px; font-weight: 600; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { border-bottom: 1px solid #f0efeb; }
+  li:last-child { border-bottom: 0; }
+  a { color: #245e7a; text-decoration: none; display: flex; justify-content: space-between;
+      gap: 16px; padding: 9px 0; }
+  a:hover { color: #16455c; text-decoration: underline; }
+  a span { color: #8a9099; font-size: 13px; white-space: nowrap; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+  .note { color: #5b6470; font-size: 13.5px; margin: 0; }
+  .disclaimer { color: #7a818b; font-size: 12.5px; border-top: 1px solid #e3e1dc; padding-top: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>__APP__</h1>
+  <p class="sub">__TAGLINE__ &middot; version __VERSION__</p>
+
+  <div class="card">
+    <span class="status">API running</span>
+    <p class="note" style="margin-top:14px">
+      The backend is live. <strong>The clinical dashboard (single-page app) has not been built yet</strong>,
+      so this page is a service index rather than the product interface. Every endpoint below returns
+      real data computed from the synthetic patient streams and the trained model.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Interactive documentation</h2>
+    <ul>
+      <li><a href="/docs"><code>/docs</code><span>Swagger UI — try every endpoint</span></a></li>
+      <li><a href="/redoc"><code>/redoc</code><span>ReDoc</span></a></li>
+      <li><a href="/openapi.json"><code>/openapi.json</code><span>OpenAPI schema</span></a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Patient &amp; digital twin</h2>
+    <ul>
+      <li><a href="/api/patients"><code>/api/patients</code><span>cohort index</span></a></li>
+      <li><a href="/api/patients/DT-1047"><code>/api/patients/DT-1047</code><span>record + header</span></a></li>
+      <li><a href="/api/patients/DT-1047/ehr"><code>/api/patients/DT-1047/ehr</code><span>static clinical history</span></a></li>
+      <li><a href="/api/patients/DT-1047/twin"><code>/api/patients/DT-1047/twin</code><span>twin state + radar</span></a></li>
+      <li><a href="/api/patients/DT-1047/twin/fusion"><code>/api/patients/DT-1047/twin/fusion</code><span>data fusion panel</span></a></li>
+      <li><a href="/api/patients/DT-1047/twin/baseline"><code>/api/patients/DT-1047/twin/baseline</code><span>compared with baseline</span></a></li>
+      <li><a href="/api/patients/DT-1047/sensors"><code>/api/patients/DT-1047/sensors</code><span>sensor cards</span></a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Prediction &amp; explainability</h2>
+    <ul>
+      <li><a href="/api/patients/DT-1047/prediction"><code>/api/patients/DT-1047/prediction</code><span>2-hour risk card</span></a></li>
+      <li><a href="/api/patients/DT-1047/prediction/explain"><code>&hellip;/prediction/explain</code><span>why is the risk high?</span></a></li>
+      <li><a href="/api/patients/DT-1047/prediction/trajectory"><code>&hellip;/prediction/trajectory</code><span>forecast fan</span></a></li>
+      <li><a href="/api/patients/DT-1047/charts"><code>/api/patients/DT-1047/charts</code><span>glucose chart payload</span></a></li>
+      <li><a href="/api/patients/DT-1047/timeline"><code>/api/patients/DT-1047/timeline</code><span>clinical timeline</span></a></li>
+      <li><a href="/api/model/metrics"><code>/api/model/metrics</code><span>validation metrics</span></a></li>
+      <li><a href="/api/model/importance"><code>/api/model/importance</code><span>feature importance</span></a></li>
+      <li><a href="/api/model/calibration"><code>/api/model/calibration</code><span>calibration curve</span></a></li>
+      <li><a href="/api/model/limitations"><code>/api/model/limitations</code><span>limitations &amp; ethics</span></a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Simulation, interpretation &amp; platform</h2>
+    <ul>
+      <li><a href="/api/simulation/snapshot?patient_id=DT-1047"><code>/api/simulation/snapshot</code><span>full dashboard payload</span></a></li>
+      <li><a href="/api/insights/status"><code>/api/insights/status</code><span>Groq layer state</span></a></li>
+      <li><a href="/api/insights/context?patient_id=DT-1047"><code>/api/insights/context</code><span>prompt context sent to Groq</span></a></li>
+      <li><a href="/api/datasources"><code>/api/datasources</code><span>data provenance</span></a></li>
+      <li><a href="/api/architecture"><code>/api/architecture</code><span>architecture diagram data</span></a></li>
+      <li><a href="/api/profile"><code>/api/profile</code><span>about / team</span></a></li>
+      <li><a href="/api/health"><code>/api/health</code><span>health check</span></a></li>
+    </ul>
+  </div>
+
+  <p class="disclaimer">__DISCLAIMER__ &nbsp;&middot;&nbsp; __CLASSIFICATION__</p>
+</main>
+</body>
+</html>
+"""
+
 
 @app.get("/", include_in_schema=False)
 def index() -> Any:
     if INDEX_FILE.exists():
         return FileResponse(INDEX_FILE)
-    return JSONResponse(
-        status_code=200,
-        content={
-            "app": settings.app_name,
-            "status": "api-only",
-            "message": "frontend/index.html not found — the API is running.",
-            "docs": "/docs",
-            "health": "/api/health",
-        },
+    page = (
+        _API_STATUS_PAGE.replace("__APP__", settings.app_name)
+        .replace("__TAGLINE__", settings.app_tagline)
+        .replace("__VERSION__", settings.app_version)
+        .replace("__DISCLAIMER__", settings.disclaimer)
+        .replace("__CLASSIFICATION__", settings.data_classification)
     )
+    return HTMLResponse(content=page, status_code=200)
 
 
 if FRONTEND_DIR.exists():

@@ -1,13 +1,13 @@
 {
   "patient_id": "DT-1182",
   "interval_minutes": 5,
-  "scenario_day": "2026-10-04",
-  "start": "2026-10-01T15:00:00",
-  "end": "2026-10-04T15:00:00",
+  "scenario_day": "2026-10-05",
+  "start": "2026-10-02T15:00:00",
+  "end": "2026-10-05T15:00:00",
   "rows": 865,
   "meals": [
     {
-      "datetime": "2026-10-01T20:15:00",
+      "datetime": "2026-10-02T20:15:00",
       "clock": "20:15",
       "day_offset": -3,
       "label": "Dinner",
@@ -15,7 +15,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-02T08:40:00",
+      "datetime": "2026-10-03T08:40:00",
       "clock": "08:40",
       "day_offset": -2,
       "label": "Breakfast \u2014 upma",
@@ -23,7 +23,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-02T13:40:00",
+      "datetime": "2026-10-03T13:40:00",
       "clock": "13:40",
       "day_offset": -2,
       "label": "Lunch \u2014 rice, kadhi",
@@ -31,7 +31,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-02T19:50:00",
+      "datetime": "2026-10-03T19:50:00",
       "clock": "19:50",
       "day_offset": -2,
       "label": "Dinner \u2014 phulka, dal",
@@ -39,7 +39,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-03T08:20:00",
+      "datetime": "2026-10-04T08:20:00",
       "clock": "08:20",
       "day_offset": -1,
       "label": "Breakfast \u2014 poha, fruit",
@@ -47,7 +47,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-03T13:20:00",
+      "datetime": "2026-10-04T13:20:00",
       "clock": "13:20",
       "day_offset": -1,
       "label": "Lunch \u2014 rice thali",
@@ -55,7 +55,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-03T20:00:00",
+      "datetime": "2026-10-04T20:00:00",
       "clock": "20:00",
       "day_offset": -1,
       "label": "Dinner \u2014 phulka, palak paneer",
@@ -63,7 +63,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-04T08:35:00",
+      "datetime": "2026-10-05T08:35:00",
       "clock": "08:35",
       "day_offset": 0,
       "label": "Breakfast \u2014 dosa, coconut chutney (bolus dose given 25 min late)",
@@ -71,7 +71,7 @@
       "logged_in_app": true
     },
     {
-      "datetime": "2026-10-04T13:35:00",
+      "datetime": "2026-10-05T13:35:00",
       "clock": "13:35",
       "day_offset": 0,
       "label": "Lunch \u2014 rice, sambar, potato curry",
@@ -81,7 +81,7 @@
   ],
   "sleep_nights": [
     {
-      "night_of": "2026-10-01",
+      "night_of": "2026-10-02",
       "bed_time": "22:51",
       "wake_time": "06:13",
       "time_in_bed_h": 7.3,
@@ -96,7 +96,7 @@
       "note": ""
     },
     {
-      "night_of": "2026-10-02",
+      "night_of": "2026-10-03",
       "bed_time": "22:39",
       "wake_time": "06:20",
       "time_in_bed_h": 7.7,
@@ -107,11 +107,11 @@
       "awakenings": 3,
       "mean_hr_bpm": 66,
       "mean_hrv_ms": 39,
-      "mean_glucose_mgdl": 168,
+      "mean_glucose_mgdl": 169,
       "note": "One nocturia episode"
     },
     {
-      "night_of": "2026-10-03",
+      "night_of": "2026-10-04",
       "bed_time": "22:50",
       "wake_time": "05:05",
       "time_in_bed_h": 6.2,
@@ -162,7 +162,7 @@
     "variability_scale": 1.45
   },
   "classification": "SYNTHETIC \u2014 generated, not measured",
-  "generated_at": "2026-10-04T04:54:10Z",
+  "generated_at": "2026-10-05T15:47:06Z",
   "generator": "backend/services/synthetic_data.py",
   "sampling_interval_minutes": 5,
   "signals": [
@@ -204,21 +204,21 @@
   ],
   "contains_real_patient_data": false,
   "personal_baseline": {
-    "window_start": "2026-10-01T15:00:00",
-    "window_end": "2026-10-03T14:55:00",
+    "window_start": "2026-10-02T15:00:00",
+    "window_end": "2026-10-04T14:55:00",
     "window_hours": 48.0,
     "samples": 576,
     "glucose_median": 176.0,
-    "glucose_mean": 182.3125,
+    "glucose_mean": 182.51041666666666,
     "glucose_p10": 158.0,
-    "glucose_p90": 217.0,
-    "glucose_std": 22.74785360753845,
-    "glucose_cv_pct": 12.47739656224255,
-    "glucose_median_daytime": 183.0,
+    "glucose_p90": 217.5,
+    "glucose_std": 22.844353237209166,
+    "glucose_cv_pct": 12.516739402842761,
+    "glucose_median_daytime": 183.5,
     "hr_resting_median": 85.0,
     "hr_sleep_median": 66.0,
     "hrv_daytime_median": 26.0,
-    "daily_steps_median": 2836.0,
+    "daily_steps_median": 2560.0,
     "sleep_duration_median_h": 5.3,
     "sleep_efficiency_median": 0.73,
     "overnight_hrv_median": 38.0,
