@@ -1,0 +1,812 @@
+{
+  "model_id": "vitalsync-gluco2h-gbm-20261003-95fa61",
+  "trained_at": "2026-10-03T18:42:43Z",
+  "estimator": "xgboost-3.x-hist",
+  "estimator_kind": "gradient_boosting",
+  "secondary_estimator": "sklearn-logistic-regression-L2(C=0.35)",
+  "model_selection": {
+    "rule": "higher validation AUROC; ties within 0.005 broken by lower validation ECE",
+    "rationale": "validation AUROC differs by 0.0341 (> 0.005); the higher-scoring model was selected",
+    "selected": "gradient_boosting",
+    "candidates": {
+      "gradient_boosting": {
+        "name": "xgboost-3.x-hist",
+        "validation_auroc": 0.9698,
+        "validation_log_loss": 0.1562,
+        "validation_ece": 0.0115
+      },
+      "logistic_regression": {
+        "name": "sklearn-logistic-regression-L2(C=0.35)",
+        "validation_auroc": 0.9357,
+        "validation_log_loss": 0.2265,
+        "validation_ece": 0.0179
+      }
+    }
+  },
+  "target": "P(significant glucose elevation within 120 min)",
+  "feature_count": 84,
+  "feature_catalogue": [
+    {
+      "name": "age",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "years",
+      "description": "Patient age"
+    },
+    {
+      "name": "sex_male",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "0/1",
+      "description": "Sex assigned at birth (1 = male)"
+    },
+    {
+      "name": "bmi",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "kg/m\u00b2",
+      "description": "Body mass index"
+    },
+    {
+      "name": "waist_cm",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "cm",
+      "description": "Waist circumference (central adiposity)"
+    },
+    {
+      "name": "diabetes_duration_years",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "years",
+      "description": "Years since diabetes/prediabetes diagnosis"
+    },
+    {
+      "name": "hba1c_pct",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "%",
+      "description": "Most recent HbA1c"
+    },
+    {
+      "name": "fasting_glucose_mgdl",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "mg/dL",
+      "description": "Most recent fasting plasma glucose"
+    },
+    {
+      "name": "systolic_bp",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "mmHg",
+      "description": "Most recent systolic blood pressure"
+    },
+    {
+      "name": "diastolic_bp",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "mmHg",
+      "description": "Most recent diastolic blood pressure"
+    },
+    {
+      "name": "egfr",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "mL/min/1.73m\u00b2",
+      "description": "Estimated glomerular filtration rate"
+    },
+    {
+      "name": "triglycerides",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "mg/dL",
+      "description": "Fasting triglycerides"
+    },
+    {
+      "name": "hdl_cholesterol",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "mg/dL",
+      "description": "HDL cholesterol"
+    },
+    {
+      "name": "on_metformin",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "0/1",
+      "description": "Currently prescribed metformin"
+    },
+    {
+      "name": "on_sglt2",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "0/1",
+      "description": "Currently prescribed SGLT2 inhibitor"
+    },
+    {
+      "name": "on_glp1",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "0/1",
+      "description": "Currently prescribed GLP-1 receptor agonist"
+    },
+    {
+      "name": "on_sulfonylurea",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "0/1",
+      "description": "Currently prescribed sulfonylurea"
+    },
+    {
+      "name": "on_insulin",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "0/1",
+      "description": "Currently prescribed insulin"
+    },
+    {
+      "name": "n_glucose_meds",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "count",
+      "description": "Number of active glucose-lowering agents"
+    },
+    {
+      "name": "medication_adherence",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "0-1",
+      "description": "Mean recorded adherence across active medications"
+    },
+    {
+      "name": "family_history_diabetes",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "0/1",
+      "description": "First-degree relative with diabetes"
+    },
+    {
+      "name": "prior_time_in_range_pct",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "%",
+      "description": "Time in range 70-180 mg/dL on the previous CGM report"
+    },
+    {
+      "name": "prior_cv_pct",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "%",
+      "description": "Coefficient of variation on the previous CGM report"
+    },
+    {
+      "name": "prior_time_above_180_pct",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "%",
+      "description": "Time above 180 mg/dL on the previous CGM report"
+    },
+    {
+      "name": "prior_hyper_episodes",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "count",
+      "description": "Hyperglycaemic episodes in the previous 14-day report"
+    },
+    {
+      "name": "hypoglycaemia_episodes_12m",
+      "group": "historical",
+      "group_label": "Historical / EHR (static)",
+      "unit": "count",
+      "description": "Reported hypoglycaemic episodes in 12 months"
+    },
+    {
+      "name": "glucose_current",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Latest CGM value (mean of last 10 min)"
+    },
+    {
+      "name": "glucose_slope_15",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL/min",
+      "description": "15-minute linear glucose slope"
+    },
+    {
+      "name": "glucose_slope_30",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL/min",
+      "description": "30-minute linear glucose slope"
+    },
+    {
+      "name": "glucose_slope_60",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL/min",
+      "description": "60-minute linear glucose slope"
+    },
+    {
+      "name": "glucose_acceleration",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL/min\u00b2",
+      "description": "Short-window slope minus long-window slope (curvature)"
+    },
+    {
+      "name": "glucose_mean_30",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 30-minute mean"
+    },
+    {
+      "name": "glucose_mean_60",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 60-minute mean"
+    },
+    {
+      "name": "glucose_mean_180",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 3-hour mean"
+    },
+    {
+      "name": "glucose_mean_12h",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 12-hour mean"
+    },
+    {
+      "name": "glucose_std_60",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 60-minute standard deviation"
+    },
+    {
+      "name": "glucose_std_180",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 3-hour standard deviation"
+    },
+    {
+      "name": "glucose_cv_180",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "%",
+      "description": "Rolling 3-hour coefficient of variation"
+    },
+    {
+      "name": "glucose_cv_24h",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "%",
+      "description": "24-hour coefficient of variation"
+    },
+    {
+      "name": "glucose_delta_60",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Change versus 60 minutes ago"
+    },
+    {
+      "name": "glucose_delta_180",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Change versus 3 hours ago"
+    },
+    {
+      "name": "glucose_min_60",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 60-minute minimum"
+    },
+    {
+      "name": "glucose_max_60",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 60-minute maximum"
+    },
+    {
+      "name": "glucose_max_180",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 3-hour maximum"
+    },
+    {
+      "name": "glucose_range_180",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL",
+      "description": "Rolling 3-hour peak-to-trough range"
+    },
+    {
+      "name": "glucose_above_180_24h_pct",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "%",
+      "description": "Share of the last 24 h spent above 180 mg/dL"
+    },
+    {
+      "name": "glucose_rate_of_change_15",
+      "group": "glucose",
+      "group_label": "Dynamic \u2014 continuous glucose",
+      "unit": "mg/dL/15min",
+      "description": "Simple 15-minute difference (device-style arrow)"
+    },
+    {
+      "name": "hr_current",
+      "group": "cardio",
+      "group_label": "Dynamic \u2014 heart rate & HRV",
+      "unit": "bpm",
+      "description": "Heart rate, mean of last 15 min"
+    },
+    {
+      "name": "hr_mean_60",
+      "group": "cardio",
+      "group_label": "Dynamic \u2014 heart rate & HRV",
+      "unit": "bpm",
+      "description": "Rolling 60-minute mean heart rate"
+    },
+    {
+      "name": "hr_delta_60",
+      "group": "cardio",
+      "group_label": "Dynamic \u2014 heart rate & HRV",
+      "unit": "bpm",
+      "description": "Heart-rate trend versus 60 min ago"
+    },
+    {
+      "name": "hrv_current",
+      "group": "cardio",
+      "group_label": "Dynamic \u2014 heart rate & HRV",
+      "unit": "ms",
+      "description": "RMSSD, mean of last 30 min"
+    },
+    {
+      "name": "hrv_mean_180",
+      "group": "cardio",
+      "group_label": "Dynamic \u2014 heart rate & HRV",
+      "unit": "ms",
+      "description": "Rolling 3-hour mean RMSSD"
+    },
+    {
+      "name": "hrv_overnight_mean",
+      "group": "cardio",
+      "group_label": "Dynamic \u2014 heart rate & HRV",
+      "unit": "ms",
+      "description": "Mean RMSSD during the most recent completed night"
+    },
+    {
+      "name": "spo2_current",
+      "group": "cardio",
+      "group_label": "Dynamic \u2014 heart rate & HRV",
+      "unit": "%",
+      "description": "Latest peripheral oxygen saturation"
+    },
+    {
+      "name": "steps_30",
+      "group": "activity",
+      "group_label": "Dynamic \u2014 activity & steps",
+      "unit": "steps",
+      "description": "Steps in the last 30 minutes"
+    },
+    {
+      "name": "steps_60",
+      "group": "activity",
+      "group_label": "Dynamic \u2014 activity & steps",
+      "unit": "steps",
+      "description": "Steps in the last 60 minutes"
+    },
+    {
+      "name": "steps_180",
+      "group": "activity",
+      "group_label": "Dynamic \u2014 activity & steps",
+      "unit": "steps",
+      "description": "Steps in the last 3 hours"
+    },
+    {
+      "name": "steps_today",
+      "group": "activity",
+      "group_label": "Dynamic \u2014 activity & steps",
+      "unit": "steps",
+      "description": "Cumulative steps since waking today"
+    },
+    {
+      "name": "activity_met_60",
+      "group": "activity",
+      "group_label": "Dynamic \u2014 activity & steps",
+      "unit": "MET",
+      "description": "Mean metabolic equivalent over 60 min"
+    },
+    {
+      "name": "activity_change_pct",
+      "group": "activity",
+      "group_label": "Dynamic \u2014 activity & steps",
+      "unit": "%",
+      "description": "Activity in the last 60 min versus the preceding 60 min"
+    },
+    {
+      "name": "sedentary_minutes_continuous",
+      "group": "activity",
+      "group_label": "Dynamic \u2014 activity & steps",
+      "unit": "min",
+      "description": "Uninterrupted time below the movement threshold"
+    },
+    {
+      "name": "sedentary_hours_ewma",
+      "group": "activity",
+      "group_label": "Dynamic \u2014 activity & steps",
+      "unit": "h",
+      "description": "Exponentially-weighted recent sedentary hours"
+    },
+    {
+      "name": "sleep_duration_h",
+      "group": "sleep",
+      "group_label": "Dynamic \u2014 sleep",
+      "unit": "h",
+      "description": "Sleep duration of the most recent completed night"
+    },
+    {
+      "name": "sleep_efficiency",
+      "group": "sleep",
+      "group_label": "Dynamic \u2014 sleep",
+      "unit": "0-1",
+      "description": "Sleep efficiency of the most recent night"
+    },
+    {
+      "name": "sleep_deep_fraction",
+      "group": "sleep",
+      "group_label": "Dynamic \u2014 sleep",
+      "unit": "0-1",
+      "description": "Deep-sleep share of the most recent night"
+    },
+    {
+      "name": "sleep_awakenings",
+      "group": "sleep",
+      "group_label": "Dynamic \u2014 sleep",
+      "unit": "count",
+      "description": "Wake episodes during the most recent night"
+    },
+    {
+      "name": "hours_since_wake",
+      "group": "sleep",
+      "group_label": "Dynamic \u2014 sleep",
+      "unit": "h",
+      "description": "Hours since the patient woke up"
+    },
+    {
+      "name": "sleep_quality_index",
+      "group": "sleep",
+      "group_label": "Dynamic \u2014 sleep",
+      "unit": "0-1",
+      "description": "Composite of duration, efficiency and fragmentation"
+    },
+    {
+      "name": "minutes_since_last_meal",
+      "group": "meal",
+      "group_label": "Dynamic \u2014 meal context",
+      "unit": "min",
+      "description": "Time since the most recent logged meal (capped at 600)"
+    },
+    {
+      "name": "last_meal_carbs_g",
+      "group": "meal",
+      "group_label": "Dynamic \u2014 meal context",
+      "unit": "g",
+      "description": "Carbohydrate load of the most recent logged meal"
+    },
+    {
+      "name": "carbs_last_24h",
+      "group": "meal",
+      "group_label": "Dynamic \u2014 meal context",
+      "unit": "g",
+      "description": "Total logged carbohydrate in the last 24 h"
+    },
+    {
+      "name": "is_postprandial",
+      "group": "meal",
+      "group_label": "Dynamic \u2014 meal context",
+      "unit": "0/1",
+      "description": "Within 180 min of a logged meal"
+    },
+    {
+      "name": "expected_meal_proximity",
+      "group": "meal",
+      "group_label": "Dynamic \u2014 meal context",
+      "unit": "0-1",
+      "description": "Proximity to this patient's own habitual meal times, learned from the onboarding window and weighted by their usual carbohydrate load"
+    },
+    {
+      "name": "minutes_to_next_habitual_meal",
+      "group": "meal",
+      "group_label": "Dynamic \u2014 meal context",
+      "unit": "min",
+      "description": "Minutes until the next habitual meal time for this patient (capped at 480)"
+    },
+    {
+      "name": "glucose_dev_personal_pct",
+      "group": "baseline",
+      "group_label": "Personal-baseline deviation",
+      "unit": "%",
+      "description": "Current glucose versus personal median"
+    },
+    {
+      "name": "glucose_dev_clock_pct",
+      "group": "baseline",
+      "group_label": "Personal-baseline deviation",
+      "unit": "%",
+      "description": "Current glucose versus personal median for this clock hour"
+    },
+    {
+      "name": "glucose_cv_dev_personal",
+      "group": "baseline",
+      "group_label": "Personal-baseline deviation",
+      "unit": "ratio",
+      "description": "Recent glucose variability versus personal norm"
+    },
+    {
+      "name": "hr_dev_personal",
+      "group": "baseline",
+      "group_label": "Personal-baseline deviation",
+      "unit": "bpm",
+      "description": "Heart rate minus personal daytime resting median"
+    },
+    {
+      "name": "hrv_dev_personal_pct",
+      "group": "baseline",
+      "group_label": "Personal-baseline deviation",
+      "unit": "%",
+      "description": "HRV versus personal daytime baseline"
+    },
+    {
+      "name": "hrv_overnight_dev_personal_pct",
+      "group": "baseline",
+      "group_label": "Personal-baseline deviation",
+      "unit": "%",
+      "description": "Overnight HRV versus personal overnight baseline"
+    },
+    {
+      "name": "activity_dev_personal_pct",
+      "group": "baseline",
+      "group_label": "Personal-baseline deviation",
+      "unit": "%",
+      "description": "Steps in this clock window versus the patient's usual"
+    },
+    {
+      "name": "sleep_deficit_h",
+      "group": "baseline",
+      "group_label": "Personal-baseline deviation",
+      "unit": "h",
+      "description": "Personal sleep baseline minus last night's duration"
+    },
+    {
+      "name": "hour_sin",
+      "group": "temporal",
+      "group_label": "Circadian / calendar",
+      "unit": "-",
+      "description": "Cyclical encoding of time of day (sin)"
+    },
+    {
+      "name": "hour_cos",
+      "group": "temporal",
+      "group_label": "Circadian / calendar",
+      "unit": "-",
+      "description": "Cyclical encoding of time of day (cos)"
+    },
+    {
+      "name": "is_weekend",
+      "group": "temporal",
+      "group_label": "Circadian / calendar",
+      "unit": "0/1",
+      "description": "Saturday or Sunday"
+    }
+  ],
+  "dataset": {
+    "generated_at": "2026-10-03T18:36:57Z",
+    "generator": "datasets/synthetic/generate_cohort.py",
+    "python": "3.11.2",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "n_patients": 96,
+    "days_per_patient": 6,
+    "onboarding_hours": 48,
+    "sampling_interval_minutes": 5,
+    "scoring_stride_minutes": 15,
+    "forecast_horizon_minutes": 120,
+    "event_definition": {
+      "description": "Within the next 120 minutes the 15-min-filtered CGM trace reaches >= 180 mg/dL AND rises >= 25 mg/dL above the value at the prediction instant.",
+      "high_threshold_mgdl": 180.0,
+      "rise_delta_mgdl": 25.0,
+      "labelling_filter": "centred 3-sample (15 min) moving average",
+      "reference": "ATTD international consensus on time in range (180 mg/dL upper bound)"
+    },
+    "rows": 36192,
+    "features": 84,
+    "feature_names": [
+      "age",
+      "sex_male",
+      "bmi",
+      "waist_cm",
+      "diabetes_duration_years",
+      "hba1c_pct",
+      "fasting_glucose_mgdl",
+      "systolic_bp",
+      "diastolic_bp",
+      "egfr",
+      "triglycerides",
+      "hdl_cholesterol",
+      "on_metformin",
+      "on_sglt2",
+      "on_glp1",
+      "on_sulfonylurea",
+      "on_insulin",
+      "n_glucose_meds",
+      "medication_adherence",
+      "family_history_diabetes",
+      "prior_time_in_range_pct",
+      "prior_cv_pct",
+      "prior_time_above_180_pct",
+      "prior_hyper_episodes",
+      "hypoglycaemia_episodes_12m",
+      "glucose_current",
+      "glucose_slope_15",
+      "glucose_slope_30",
+      "glucose_slope_60",
+      "glucose_acceleration",
+      "glucose_mean_30",
+      "glucose_mean_60",
+      "glucose_mean_180",
+      "glucose_mean_12h",
+      "glucose_std_60",
+      "glucose_std_180",
+      "glucose_cv_180",
+      "glucose_cv_24h",
+      "glucose_delta_60",
+      "glucose_delta_180",
+      "glucose_min_60",
+      "glucose_max_60",
+      "glucose_max_180",
+      "glucose_range_180",
+      "glucose_above_180_24h_pct",
+      "glucose_rate_of_change_15",
+      "hr_current",
+      "hr_mean_60",
+      "hr_delta_60",
+      "hrv_current",
+      "hrv_mean_180",
+      "hrv_overnight_mean",
+      "spo2_current",
+      "steps_30",
+      "steps_60",
+      "steps_180",
+      "steps_today",
+      "activity_met_60",
+      "activity_change_pct",
+      "sedentary_minutes_continuous",
+      "sedentary_hours_ewma",
+      "sleep_duration_h",
+      "sleep_efficiency",
+      "sleep_deep_fraction",
+      "sleep_awakenings",
+      "hours_since_wake",
+      "sleep_quality_index",
+      "minutes_since_last_meal",
+      "last_meal_carbs_g",
+      "carbs_last_24h",
+      "is_postprandial",
+      "expected_meal_proximity",
+      "minutes_to_next_habitual_meal",
+      "glucose_dev_personal_pct",
+      "glucose_dev_clock_pct",
+      "glucose_cv_dev_personal",
+      "hr_dev_personal",
+      "hrv_dev_personal_pct",
+      "hrv_overnight_dev_personal_pct",
+      "activity_dev_personal_pct",
+      "sleep_deficit_h",
+      "hour_sin",
+      "hour_cos",
+      "is_weekend"
+    ],
+    "positive_events": 4621,
+    "positive_rate": 0.1277,
+    "per_patient_event_rate": {
+      "min": 0.0,
+      "median": 0.1286,
+      "max": 0.2971
+    },
+    "cohort_seed": 20260117,
+    "anchor_date": "2026-09-20",
+    "generation_seconds": 14.1,
+    "licence": "CC-BY-4.0 (synthetic data generated by this repository)",
+    "contains_real_patient_data": false,
+    "sha256_16": "5f71e639cfb4c53c",
+    "files": {
+      "features": "cohort_features.csv.gz",
+      "patients": "cohort_patients.json",
+      "metadata": "dataset_metadata.json"
+    }
+  },
+  "split": {
+    "strategy": "GroupShuffleSplit by patient_id (no patient in two splits)",
+    "train_patients": 60,
+    "validation_patients": 14,
+    "test_patients": 22,
+    "train_rows": 22620,
+    "validation_rows": 5278,
+    "test_rows": 8294,
+    "random_state": 20260117
+  },
+  "threshold": 0.4400000000000002,
+  "threshold_selection": {
+    "method": "max-F1 on patient-level validation split",
+    "grid": [
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75,
+      0.8
+    ],
+    "f1_at_grid": [
+      0.7499,
+      0.7641,
+      0.7658,
+      0.7763,
+      0.7898,
+      0.7908,
+      0.7853,
+      0.781,
+      0.7751,
+      0.7607,
+      0.7514,
+      0.7244,
+      0.673
+    ],
+    "selected": 0.44,
+    "best_f1": 0.791
+  },
+  "calibration_applied": false,
+  "environment": {
+    "python": "3.11.2",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "scikit_learn": "1.9.1",
+    "xgboost_available": true,
+    "platform": "Linux-6.1.158+-x86_64-with-glibc2.36"
+  },
+  "training_seconds": 16.7,
+  "artifacts": {
+    "model": "model/artifacts/twin_model.joblib",
+    "metrics": "model/artifacts/metrics.json",
+    "feature_importance": "model/artifacts/feature_importance.json",
+    "calibration": "model/artifacts/calibration.json",
+    "manifest": "model/artifacts/train_manifest.json"
+  },
+  "reproducibility": {
+    "cohort_seed": 20260117,
+    "random_state": 20260117,
+    "command": "python model/train.py --regenerate"
+  }
+}
