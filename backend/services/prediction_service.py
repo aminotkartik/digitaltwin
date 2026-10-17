@@ -487,7 +487,8 @@ _PROJECTORS: Dict[str, TrajectoryProjector] = {}
 def get_projector(record: PatientRecord) -> TrajectoryProjector:
     key = f"{record.patient_id}:{record.built_at}"
     if key not in _PROJECTORS:
-        _PROJECTORS.clear()
+        if len(_PROJECTORS) >= 16:
+            _PROJECTORS.clear()
         _PROJECTORS[key] = TrajectoryProjector(record)
     return _PROJECTORS[key]
 

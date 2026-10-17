@@ -25,6 +25,7 @@ router = APIRouter(prefix="/simulation", tags=["simulation"])
 class StartRequest(BaseModel):
     patient_id: Optional[str] = None
     from_clock: Optional[str] = Field(None, description='clock time to start from, e.g. "09:00"')
+    from_index: Optional[int] = Field(None, description="explicit sample index to start from")
     speed_minutes_per_tick: int = Field(5, ge=1, le=120)
     tick_interval_ms: int = Field(900, ge=150, le=5000)
     session_id: Optional[str] = None
@@ -74,6 +75,7 @@ def start_simulation(payload: StartRequest) -> Dict[str, Any]:
         session = _service().start(
             patient_id=payload.patient_id,
             from_clock=payload.from_clock,
+            from_index=payload.from_index,
             speed_minutes_per_tick=payload.speed_minutes_per_tick,
             tick_interval_ms=payload.tick_interval_ms,
             session_id=payload.session_id,
@@ -151,6 +153,7 @@ def jump_simulation(payload: JumpRequest) -> Dict[str, Any]:
 
 @router.post("/speed")
 def set_speed(payload: SpeedRequest) -> Dict[str, Any]:
+    _require(payload.session_id)
     session = _service().set_speed(payload.session_id, payload.speed_minutes_per_tick, payload.tick_interval_ms)
     return {"session": _service().public_state(session), "controls": _controls(session)}
 
@@ -159,7 +162,7 @@ def set_speed(payload: SpeedRequest) -> Dict[str, Any]:
 def simulation_state(session_id: str) -> Dict[str, Any]:
     session = _require(session_id)
     service = _service()
-    return {"session": service._public_state(session), "controls": _controls(session)}
+    return {"session": service.public_state(session), "controls": _controls(session)}
 
 
 @router.get("/sessions")

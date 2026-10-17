@@ -379,6 +379,78 @@ def test_api_error_paths(client):
     assert client.get("/api/patients/DT-1047/twin/domains/nope").status_code == 404
 
 
+def test_root_entrypoint_and_vercel_config():
+    from main import app as root_app
+    from backend.main import app as backend_app
+
+    assert root_app is backend_app
+    vercel_cfg = json.loads((REPO_ROOT / "vercel.json").read_text())
+    assert vercel_cfg.get("framework") == "fastapi"
+    assert "services" not in vercel_cfg
+
+
+def test_frontend_dashboard_and_static_assets(client):
+    root_res = client.get("/")
+    assert root_res.status_code == 200
+    assert "text/html" in root_res.headers.get("content-type", "")
+    html = root_res.text
+    for expected_id in (
+        "patient-roster-grid",
+        "chart-main-glucose",
+        "chart-risk-timeline",
+        "sensor-cards-grid",
+        "chart-twin-radar",
+        "insight-body-container",
+        "panel-signals",
+        "panel-explain",
+        "panel-timeline",
+        "panel-validation",
+    ):
+        assert expected_id in html, f"Missing expected DOM element #{expected_id} in index.html"
+
+    for asset_path, expected_mime in (
+        ("/favicon.svg", "image/svg+xml"),
+        ("/favicon.ico", "image/svg+xml"),
+        ("/assets/css/styles.css", "text/css"),
+        ("/assets/js/app.js", "javascript"),
+        ("/assets/js/api.js", "javascript"),
+        ("/assets/js/charts.js", "javascript"),
+        ("/assets/vendor/chart.umd.js", "javascript"),
+    ):
+        res = client.get(asset_path)
+        assert res.status_code == 200, f"Asset {asset_path} returned {res.status_code}"
+        assert expected_mime in res.headers.get("content-type", "").lower()
+
+
+def test_simulation_from_index_and_all_patient_routes(client):
+    started = client.post(
+        "/api/simulation/start",
+        json={"patient_id": "DT-1182", "from_index": 700, "speed_minutes_per_tick": 15},
+    )
+    assert started.status_code == 200
+    payload = started.json()
+    assert payload["session"]["patient_id"] == "DT-1182"
+    assert payload["session"]["index"] == 700
+
+    for pid in ("DT-1047", "DT-1182", "DT-2210"):
+        assert client.get(f"/api/patients/{pid}").status_code == 200
+        assert client.get(f"/api/patients/{pid}/ehr").status_code == 200
+        assert client.get(f"/api/patients/{pid}/sensors?hours=6").status_code == 200
+        assert client.get(f"/api/patients/{pid}/charts?hours=6").status_code == 200
+        assert client.get(f"/api/patients/{pid}/prediction").status_code == 200
+        assert client.get(f"/api/patients/{pid}/prediction/explain").status_code == 200
+        assert client.get(f"/api/patients/{pid}/prediction/trajectory").status_code == 200
+        assert client.get(f"/api/patients/{pid}/prediction/history?hours=6").status_code == 200
+        assert client.get(f"/api/patients/{pid}/twin").status_code == 200
+        assert client.get(f"/api/patients/{pid}/twin/fusion").status_code == 200
+        assert client.get(f"/api/patients/{pid}/twin/baseline").status_code == 200
+        assert client.get(f"/api/patients/{pid}/twin/domains/glucose_stability").status_code == 200
+        assert client.get(f"/api/patients/{pid}/timeline?hours=24").status_code == 200
+        assert client.get(f"/api/patients/{pid}/timeline/pattern?hours=24").status_code == 200
+        assert client.get(f"/api/patients/{pid}/timeline/day").status_code == 200
+
+
+
 def test_profile_has_no_secrets(client):
     """
     profile.json is served to the browser verbatim, so it must be free of

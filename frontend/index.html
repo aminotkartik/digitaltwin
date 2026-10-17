@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VitalSync — Metabolic Digital Twin Platform</title>
+  <meta
+    name="description"
+    content="VitalSync Metabolic Digital Twin Platform — Multi-sensor data fusion, 2-hour blood glucose spike prediction, TreeSHAP explainability, and physiological replay."
+  />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to clinical dashboard</a>
+
+  <!-- Top Research & Synthetic Data Disclaimer Banner -->
+  <div class="disclaimer-bar" role="region" aria-label="Research prototype notice">
+    <div class="disclaimer-bar-left">
+      <span class="synthetic-pill">Synthetic Data Prototype</span>
+      <span id="header-disclaimer-text">
+        Research &amp; engineering demonstration built on physiologically grounded synthetic patient streams. Not a certified medical device.
+      </span>
+    </div>
+    <div class="mono" id="header-cohort-provenance">
+      Cohort: 120 synthetic patients · 69,120 5-min samples · Horizon: 120 min
+    </div>
+  </div>
+
+  <!-- Sticky Application Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-group">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+            <path
+              d="M8 34H19L25 18L32 48L39 24L45 34H56"
+              stroke="#EA580C"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="50" cy="16" r="5" fill="#F59E0B" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">
+            VitalSync
+            <span class="brand-version" id="app-version-badge">v1.0.0</span>
+          </h1>
+          <p class="brand-subtitle" id="app-tagline">
+            Metabolic Digital Twin Platform — 2-Hour Hyperglycaemic Excursion Early Warning
+          </p>
+        </div>
+      </div>
+
+      <div class="system-pills" aria-label="System service health">
+        <div class="sys-pill" id="sys-pill-api" title="FastAPI Backend Status">
+          <span class="sys-dot ok" id="sys-dot-api"></span>
+          <span id="sys-label-api">API: Connecting…</span>
+        </div>
+        <div class="sys-pill" id="sys-pill-model" title="Trained Gradient Boosted Decision Tree Artifact">
+          <span class="sys-dot ok" id="sys-dot-model"></span>
+          <span id="sys-label-model">Model: Loading…</span>
+        </div>
+        <div class="sys-pill" id="sys-pill-llm" title="Clinical Narrative Engine (Groq LLM / Deterministic Fallback)">
+          <span class="sys-dot warn" id="sys-dot-llm"></span>
+          <span id="sys-label-llm">Insights: Deterministic Ready</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main id="main-content" class="app-container">
+    <!-- Global Alert Banner -->
+    <div id="global-alert-banner" class="global-alert-banner" role="alert" hidden>
+      <span id="global-alert-text"></span>
+      <button type="button" id="btn-dismiss-alert" class="btn btn-sm">Dismiss</button>
+    </div>
+
+    <!-- Patient Roster Selector -->
+    <section class="roster-section" aria-labelledby="roster-heading">
+      <div class="section-header-compact">
+        <div class="section-kicker" id="roster-heading">
+          <span>Active Digital Twin Cohort</span>
+          <span class="mono" style="color: var(--text-muted); font-weight: 400;">(Select a patient twin stream)</span>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-muted);">
+          Each patient has a 48h baseline window + 24h high-resolution scenario day at 5-minute intervals
+        </div>
+      </div>
+      <div id="patient-roster-grid" class="patient-roster-grid" role="list">
+        <!-- Populated dynamically from GET /api/patients -->
+      </div>
+    </section>
+
+    <!-- Simulation & Replay Controller Bar -->
+    <section class="sim-control-bar" aria-label="Simulation and physiological replay controls">
+      <div class="sim-row-main">
+        <div class="sim-clock-cluster">
+          <div class="clock-box" title="Current simulated scenario timestamp">
+            <span class="clock-time tabular" id="sim-clock-time">10:45</span>
+            <span class="clock-date tabular" id="sim-clock-date">Day 3 · 5-min step</span>
+          </div>
+          <span class="phase-badge live" id="sim-phase-badge">LIVE</span>
+          <span class="mono tabular" style="font-size: 0.76rem; color: var(--text-muted);" id="sim-step-badge">
+            Index — / —
+          </span>
+        </div>
+
+        <div class="sim-buttons-group" role="group" aria-label="Replay transport buttons">
+          <button type="button" id="btn-sim-play" class="btn btn-primary" title="Start or pause continuous replay">
+            <span id="btn-sim-play-label">▶ Start Auto-Replay</span>
+          </button>
+          <button type="button" id="btn-sim-back-15" class="btn" title="Step backward 15 minutes (-3 samples)">
+            −15m
+          </button>
+          <button type="button" id="btn-sim-fwd-15" class="btn" title="Advance 15 minutes (+3 samples)">
+            +15m
+          </button>
+          <button type="button" id="btn-sim-fwd-30" class="btn" title="Advance 30 minutes (+6 samples)">
+            +30m
+          </button>
+          <button type="button" id="btn-sim-fwd-60" class="btn" title="Advance 60 minutes (+12 samples)">
+            +1h
+          </button>
+          <button type="button" id="btn-sim-reset" class="btn btn-warn" title="Reset replay to 09:30 pre-meal baseline">
+            ↺ Reset (09:30)
+          </button>
+          <label for="select-sim-speed" class=" preset-label" style="margin-left: 4px;">Speed:</label>
+          <select id="select-sim-speed" class="sim-select" aria-label="Simulation replay speed">
+            <option value="5">1× (5 min / tick)</option>
+            <option value="15" selected>3× (15 min / tick)</option>
+            <option value="30">6× (30 min / tick)</option>
+            <option value="60">12× (60 min / tick)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="sim-row-secondary">
+        <div class="preset-clocks" role="group" aria-label="Scenario clock presets">
+          <span class="preset-label">Jump to Scenario Clock:</span>
+          <button type="button" class="btn btn-sm js-clock-preset" data-clock="09:30">09:30 Pre-Meal</button>
+          <button type="button" class="btn btn-sm js-clock-preset active-pill" data-clock="10:45">10:45 Demo Anchor</button>
+          <button type="button" class="btn btn-sm js-clock-preset" data-clock="11:30">11:30 Post-Prandial</button>
+          <button type="button" class="btn btn-sm js-clock-preset" data-clock="12:30">12:30 Midday</button>
+          <button type="button" class="btn btn-sm js-clock-preset" data-clock="13:30">13:30 Afternoon</button>
+          <button type="button" class="btn btn-sm js-clock-preset" data-clock="14:30">14:30 Late Window</button>
+        </div>
+
+        <div class="sim-progress-wrap">
+          <div class="sim-progress-track" aria-hidden="true">
+            <div id="sim-progress-fill" class="sim-progress-fill"></div>
+          </div>
+          <span id="sim-progress-text" class="sim-progress-text tabular">0% complete</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Patient Clinical Banner -->
+    <section class="patient-banner" aria-label="Selected patient summary">
+      <div>
+        <div class="patient-identity-top">
+          <h2 class="patient-name-large" id="patient-name">Loading patient…</h2>
+          <span class="roster-patient-id" id="patient-id">DT-1047</span>
+          <span class="demo-tag" id="patient-demo-badge">Primary Demo Scenario</span>
+          <span class="badge badge-watch" id="patient-twin-badge">Twin Synchronized</span>
+        </div>
+        <p class="patient-meta-line" id="patient-demographics">
+          —
+        </p>
+        <div class="patient-Quick-pills" id="patient-clinical-chips">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <div class="patient-sync-box">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <span class="section-kicker">Twin Stream Synchronization</span>
+          <span class="badge badge-good" id="twin-quality-badge">Quality: High</span>
+        </div>
+        <div id="twin-sources-chips" class="sync-sources-row">
+          <!-- Populated dynamically -->
+        </div>
+        <div style="font-size: 0.76rem; color: var(--text-muted);" id="patient-story-arc">
+          —
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" role="tablist" aria-label="Dashboard clinical views">
+      <button
+        type="button"
+        class="nav-tab"
+        role="tab"
+        id="tab-btn-overview"
+        aria-selected="true"
+        aria-controls="panel-overview"
+        data-tab="overview"
+      >
+        1. Overview &amp; Digital Twin
+      </button>
+      <button
+        type="button"
+        class="nav-tab"
+        role="tab"
+        id="tab-btn-signals"
+        aria-selected="false"
+        aria-controls="panel-signals"
+        data-tab="signals"
+      >
+        2. Live Signals &amp; Data Fusion
+      </button>
+      <button
+        type="button"
+        class="nav-tab"
+        role="tab"
+        id="tab-btn-explain"
+        aria-selected="false"
+        aria-controls="panel-explain"
+        data-tab="explain"
+      >
+        3. Prediction &amp; Explainability
+      </button>
+      <button
+        type="button"
+        class="nav-tab"
+        role="tab"
+        id="tab-btn-timeline"
+        aria-selected="false"
+        aria-controls="panel-timeline"
+        data-tab="timeline"
+      >
+        4. Clinical Timeline &amp; Day View
+      </button>
+      <button
+        type="button"
+        class="nav-tab"
+        role="tab"
+        id="tab-btn-validation"
+        aria-selected="false"
+        aria-controls="panel-validation"
+        data-tab="validation"
+      >
+        5. Model Validation &amp; Architecture
+      </button>
+    </nav>
+
+    <!-- ======================================================================
+         TAB 1: OVERVIEW & DIGITAL TWIN
+         ====================================================================== -->
+    <div id="panel-overview" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-overview">
+      <!-- Hero Grid: 2h Risk Card + Main Glucose & Forecast Trajectory Chart -->
+      <div class="overview-hero-grid">
+        <!-- Left: 2h Spike Risk Forecast Card -->
+        <div class="panel risk-hero-card">
+          <div>
+            <div class="panel-header" style="margin-bottom: 10px;">
+              <div>
+                <div class="section-kicker">2-Hour Horizon Early Warning</div>
+                <h3 class="panel-title">Hyperglycaemic Spike Risk</h3>
+              </div>
+              <span class="badge badge-moderate" id="risk-level-badge">MODERATE</span>
+            </div>
+
+            <div class="risk-readout-block">
+              <div class="risk-number-row">
+                <div>
+                  <div class="risk-big-pct moderate tabular" id="risk-pct-value">—%</div>
+                  <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 2px;" id="risk-horizon-desc">
+                    Probability of glucose ≥ 180 mg/dL &amp; +25 mg/dL rise within 120 min
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Forecast Peak (p90)</div>
+                  <div class="tabular" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-blue);" id="risk-peak-p90">
+                    — mg/dL
+                  </div>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);" id="risk-peak-median">
+                    Median p50: — mg/dL
+                  </div>
+                </div>
+              </div>
+
+              <div class="risk-scale-bar" aria-hidden="true">
+                <div class="risk-scale-marker" id="risk-scale-marker" style="left: 50%;"></div>
+              </div>
+              <div class="risk-scale-labels tabular">
+                <span>0% Low</span>
+                <span>35% Mod</span>
+                <span>44% Op.Thresh</span>
+                <span>70% High</span>
+                <span>100%</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="risk-above-threshold-callout" class="above-threshold-callout" hidden></div>
+          <div id="risk-outcome-callout" class="outcome-reveal-callout" hidden></div>
+
+          <!-- Model Comparison Mini Strip -->
+          <div class="confidence-box">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">
+                Ensemble &amp; Baseline Model Concordance
+              </span>
+              <span class="mono" style="font-size: 0.7rem; color: var(--text-dim);" id="risk-model-id">—</span>
+            </div>
+            <div id="risk-models-compare" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 0.75rem;">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Prediction Confidence & Data Quality -->
+          <div class="confidence-box">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">
+                Prediction Confidence &amp; Stream Quality
+              </span>
+              <span class="badge badge-good tabular" id="confidence-score-badge">—%</span>
+            </div>
+            <div id="confidence-bars-container" style="display: flex; flex-direction: column; gap: 6px;">
+              <!-- Populated dynamically -->
+            </div>
+            <div style="font-size: 0.72rem; color: var(--text-muted);" id="data-quality-summary">
+              —
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Main Glucose Trajectory + Risk Timeline Charts -->
+        <div class="panel chart-panel">
+          <div>
+            <div class="panel-header" style="margin-bottom: 8px;">
+              <div>
+                <div class="section-kicker">Continuous Glucose &amp; Conditional Quantile Fan</div>
+                <h3 class="panel-title">Historical Glucose &amp; 2-Hour Forecast Trajectory (p10 / p50 / p90)</h3>
+              </div>
+              <div style="display: flex; gap: 6px; align-items: center;">
+                <span class="clinical-chip tabular" id="chart-anchor-readout">Now: — mg/dL</span>
+                <button type="button" class="btn btn-sm" id="btn-jump-explain">Inspect TreeSHAP Drivers →</button>
+              </div>
+            </div>
+
+            <div class="chart-legend-custom">
+              <span class="legend-item"><span class="legend-swatch" style="background: #b84a27;"></span>Historical CGM (mg/dL)</span>
+              <span class="legend-item"><span class="legend-swatch" style="background: #d97706;"></span>2h Forecast Median (p50)</span>
+              <span class="legend-item"><span class="legend-swatch band" style="background: rgba(217, 119, 6, 0.28);"></span>p10–p90 Uncertainty Fan</span>
+              <span class="legend-item"><span class="legend-swatch" style="background: #7c2d12;"></span>Personal Trend Extrapolation</span>
+              <span class="legend-item"><span class="legend-swatch" style="background: #b91c1c;"></span>180 mg/dL Spike Threshold</span>
+            </div>
+
+            <div class="chart-canvas-wrap">
+              <canvas id="chart-main-glucose" aria-label="Historical glucose and 2-hour forecast chart"></canvas>
+            </div>
+
+            <div id="chart-annotations-strip" class="annotations-strip">
+              <!-- Populated with meal & activity annotations -->
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-subtle);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary);">
+                Historical 2-Hour Spike Risk Probability Trace (0–100%)
+              </span>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">
+                Evaluated every 5 minutes across recent history
+              </span>
+            </div>
+            <div class="chart-canvas-wrap compact">
+              <canvas id="chart-risk-timeline" aria-label="Historical 2-hour spike risk probability chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Multi-Sensor Cards Row -->
+      <section class="panel" aria-labelledby="sensor-cards-heading">
+        <div class="panel-header" style="margin-bottom: 10px;">
+          <div>
+            <div class="section-kicker">Real-Time Physiological Streams</div>
+            <h3 class="panel-title" id="sensor-cards-heading">Synchronized Multi-Sensor Telemetry &amp; 3-Hour Sparklines</h3>
+          </div>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">
+            Compared against each patient's 48-hour personal baseline
+          </span>
+        </div>
+        <div id="sensor-cards-grid" class="sensor-cards-grid">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- Digital Twin 5-Domain Assessment + Personal Baseline Comparison -->
+      <div class="two-col-grid">
+        <!-- Left: Digital Twin 5-Domain Physiological State -->
+        <section class="panel" aria-labelledby="twin-state-heading">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Physiological State Representation</div>
+              <h3 class="panel-title" id="twin-state-heading">Digital Twin 5-Domain Assessment</h3>
+              <p class="panel-subtitle" id="twin-composite-headline">Click any domain bar to inspect component metrics and 6h history</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase;">Composite Twin Score</div>
+              <div style="display: flex; align-items: center; gap: 8px; justify-content: flex-end;">
+                <span class="tabular" style="font-size: 1.6rem; font-weight: 800;" id="twin-composite-score">—</span>
+                <span class="badge badge-watch" id="twin-composite-badge">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="twin-domains-layout">
+            <div class="chart-canvas-wrap medium">
+              <canvas id="chart-twin-radar" aria-label="Digital twin 5-domain radar chart"></canvas>
+            </div>
+            <div id="twin-domains-list" class="domain-list">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <div style="margin-top: 12px;">
+            <div style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;">
+              Active Physiological &amp; Behavioural Drivers
+            </div>
+            <div id="twin-drivers-list" class="drivers-list">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Right: Personal Baseline Comparison + Sleep Summary -->
+        <section class="panel" aria-labelledby="baseline-heading">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Individualized Reference Frame</div>
+              <h3 class="panel-title" id="baseline-heading">Current State vs Personal 48-Hour Baseline</h3>
+              <p class="panel-subtitle">Z-score deviations relative to this patient's own habitual physiology</p>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="data-table" aria-label="Personal baseline comparison">
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Current</th>
+                  <th>Personal Baseline</th>
+                  <th>Deviation</th>
+                  <th>Interpretation</th>
+                  <th>State</th>
+                </tr>
+              </thead>
+              <tbody id="table-baseline-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-subtle);" id="sleep-summary-box">
+            <!-- Populated with sleep stage & recovery metrics -->
+          </div>
+        </section>
+      </div>
+
+      <!-- Clinical Insights (Groq / Deterministic Fallback) + Active Alerts & Recent Events -->
+      <div class="two-col-grid">
+        <!-- Left: Clinical Interpretation Layer -->
+        <section class="panel" aria-labelledby="insights-heading">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Structured Clinical Narrative Layer</div>
+              <h3 class="panel-title" id="insights-heading">Clinical Decision-Support Interpretation</h3>
+              <p class="panel-subtitle">
+                Synthesizes quantitative risk predictions, TreeSHAP drivers, and baseline deviations into structured guidance
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="badge badge-info" id="insight-mode-badge">Deterministic</span>
+              <span class="mono tabular" style="font-size: 0.72rem; color: var(--text-dim);" id="insight-latency">— ms</span>
+            </div>
+          </div>
+
+          <div class="insight-actions-bar">
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Analysis action:</span>
+            <button type="button" class="btn btn-sm js-insight-focus active-pill" data-focus="summarize_changes">Summarise Changes</button>
+            <button type="button" class="btn btn-sm js-insight-focus" data-focus="explain_risk">Explain Risk Drivers</button>
+            <button type="button" class="btn btn-sm js-insight-focus" data-focus="review_pattern">Review 24h Pattern</button>
+            <button type="button" class="btn btn-sm js-insight-focus" data-focus="clinical_brief">Clinical Handover Brief</button>
+          </div>
+
+          <div id="insight-body-container" class="insight-card-body">
+            <!-- Populated dynamically via POST /api/insights -->
+          </div>
+        </section>
+
+        <!-- Right: Active Threshold Alerts & Recent Timeline Events -->
+        <section class="panel" aria-labelledby="alerts-heading">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Safety &amp; Event Surveillance</div>
+              <h3 class="panel-title" id="alerts-heading">Active Threshold Alerts &amp; Recent Clinical Events</h3>
+              <p class="panel-subtitle">Debounced physiological events detected across the last 6 hours</p>
+            </div>
+            <button type="button" class="btn btn-sm" id="btn-view-full-timeline">Full Day Timeline →</button>
+          </div>
+
+          <div id="overview-alerts-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+            <!-- Populated dynamically -->
+          </div>
+
+          <div style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">
+            Recent Physiological Timeline
+          </div>
+          <div id="overview-timeline-list" class="timeline-feed" style="max-height: 320px;">
+            <!-- Populated dynamically -->
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         TAB 2: LIVE SIGNALS & DATA FUSION
+         ====================================================================== -->
+    <div id="panel-signals" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-signals" hidden>
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="section-kicker">High-Resolution Physiological Telemetry</div>
+            <h3 class="panel-title">Synchronized Multi-Channel Sensor Streams (5-Minute Cadence)</h3>
+            <p class="panel-subtitle">Aligned CGM, optical heart rate, autonomic HRV RMSSD, accelerometer steps/MET, and pulse oximetry</p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label for="select-signal-hours" style="font-size: 0.78rem; color: var(--text-muted);">Lookback Window:</label>
+            <select id="select-signal-hours" class="sim-select">
+              <option value="6" selected>Last 6 Hours</option>
+              <option value="12">Last 12 Hours</option>
+              <option value="24">Last 24 Hours</option>
+              <option value="48">Last 48 Hours</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="two-col-grid">
+          <div class="panel" style="background: var(--bg-card);">
+            <h4 class="panel-title" style="font-size: 0.9rem; margin-bottom: 8px;">1. Continuous Glucose Monitoring (mg/dL)</h4>
+            <div class="chart-canvas-wrap medium">
+              <canvas id="chart-live-glucose"></canvas>
+            </div>
+          </div>
+
+          <div class="panel" style="background: var(--bg-card);">
+            <h4 class="panel-title" style="font-size: 0.9rem; margin-bottom: 8px;">2. Autonomic &amp; Cardiovascular State (HR bpm &amp; HRV RMSSD ms)</h4>
+            <div class="chart-canvas-wrap medium">
+              <canvas id="chart-live-cardio"></canvas>
+            </div>
+          </div>
+
+          <div class="panel" style="background: var(--bg-card);">
+            <h4 class="panel-title" style="font-size: 0.9rem; margin-bottom: 8px;">3. Physical Activity Expenditure (Steps / 5 min &amp; MET)</h4>
+            <div class="chart-canvas-wrap medium">
+              <canvas id="chart-live-activity"></canvas>
+            </div>
+          </div>
+
+          <div class="panel" style="background: var(--bg-card);">
+            <h4 class="panel-title" style="font-size: 0.9rem; margin-bottom: 8px;">4. Primary vs Secondary Risk &amp; SpO₂ Saturation (%)</h4>
+            <div class="chart-canvas-wrap medium">
+              <canvas id="chart-live-spo2-risk"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="two-col-grid">
+        <!-- Multi-Source Data Fusion Pipeline -->
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Stream Alignment &amp; Feature Fusion Engine</div>
+              <h3 class="panel-title">Historical EHR + Live Telemetry → Fused Digital Twin State</h3>
+              <p class="panel-subtitle" id="fusion-summary-header">—</p>
+            </div>
+          </div>
+          <div id="fusion-blocks-container" style="display: flex; flex-direction: column; gap: 10px;">
+            <!-- Populated dynamically from GET /api/patients/{id}/twin/fusion -->
+          </div>
+        </section>
+
+        <!-- Patient EHR & Clinical Profile -->
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Longitudinal Clinical Context</div>
+              <h3 class="panel-title">Electronic Health Record (EHR) Labs, Medications &amp; Targets</h3>
+              <p class="panel-subtitle">Static and slow-changing clinical covariates fused into the 84-feature vector</p>
+            </div>
+          </div>
+          <div id="ehr-summary-container" style="display: flex; flex-direction: column; gap: 12px;">
+            <!-- Populated dynamically -->
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         TAB 3: PREDICTION & EXPLAINABILITY
+         ====================================================================== -->
+    <div id="panel-explain" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-explain" hidden>
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="section-kicker">Transparent Clinical Machine Learning</div>
+            <h3 class="panel-title">Local Feature Attribution (Exact TreeSHAP + Calibrated Probability Shift)</h3>
+            <p class="panel-subtitle">
+              Decomposes the current 2-hour spike probability into additive percentage-point contributions from each physiological feature
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge badge-info" id="explain-method-badge">TreeSHAP</span>
+            <span class="clinical-chip tabular" id="explain-base-vs-pred">Base: —% → Predicted: —%</span>
+          </div>
+        </div>
+
+        <div id="explain-narrative-list" class="drivers-list" style="margin-bottom: 14px;">
+          <!-- Plain-English explanation sentences -->
+        </div>
+
+        <div class="two-col-grid">
+          <div class="panel" style="background: var(--bg-card);">
+            <h4 class="panel-title" style="font-size: 0.9rem; margin-bottom: 6px;">
+              Top Individual Feature Attributions (Percentage Point Shift vs Cohort Median)
+            </h4>
+            <p class="panel-subtitle" style="margin-bottom: 10px;">
+              Red bars (+pp) push 2-hour spike risk higher; Teal bars (−pp) pull risk lower
+            </p>
+            <div class="chart-canvas-wrap tall">
+              <canvas id="chart-explain-local"></canvas>
+            </div>
+          </div>
+
+          <div class="panel" style="background: var(--bg-card);">
+            <h4 class="panel-title" style="font-size: 0.9rem; margin-bottom: 6px;">
+              Aggregated Attribution by Physiological Signal Family
+            </h4>
+            <p class="panel-subtitle" style="margin-bottom: 10px;">
+              Net percentage-point contribution across all 84 engineered features grouped by stream
+            </p>
+            <div class="chart-canvas-wrap tall">
+              <canvas id="chart-explain-groups"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Detailed Local Attribution Table -->
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="section-kicker">Quantitative Feature Audit</div>
+            <h3 class="panel-title">Patient Feature Values vs Cohort Reference Median</h3>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Signal Group</th>
+                <th>Current Value</th>
+                <th>Reference Median</th>
+                <th>Risk Shift (pp)</th>
+                <th>Direction</th>
+              </tr>
+            </thead>
+            <tbody id="table-explain-local-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Global Permutation Importance & Secondary Logistic Odds Ratios -->
+      <div class="two-col-grid">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Cohort-Wide Feature Sensitivity</div>
+              <h3 class="panel-title">Global Held-Out Permutation Importance (AUROC Drop)</h3>
+              <p class="panel-subtitle">Measured across 20 held-out synthetic test patients (10,960 decision windows)</p>
+            </div>
+          </div>
+          <div class="chart-canvas-wrap tall">
+            <canvas id="chart-explain-global"></canvas>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Secondary Linear Baseline Model</div>
+              <h3 class="panel-title">Standardised Logistic Regression Odds Ratios (Top Features)</h3>
+              <p class="panel-subtitle">Odds ratio per +1 SD change in the secondary L2-regularised logistic baseline</p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Group</th>
+                  <th>Log-Odds Coef</th>
+                  <th>Odds Ratio (per +1 SD)</th>
+                  <th>Effect</th>
+                </tr>
+              </thead>
+              <tbody id="table-logistic-odds-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- 84-Feature Engineering Catalogue Explorer -->
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="section-kicker">Feature Engineering Specification</div>
+            <h3 class="panel-title">Complete 84-Feature Multi-Stream Catalogue</h3>
+            <p class="panel-subtitle">Search or filter all causal rolling features extracted at each 5-minute step</p>
+          </div>
+          <div class="filter-bar" style="margin-bottom: 0;">
+            <select id="select-feature-group" class="sim-select" aria-label="Filter features by group">
+              <option value="">All Signal Groups (84)</option>
+              <option value="glucose">Glucose Dynamics</option>
+              <option value="meal">Meal &amp; Carbohydrate Absorption</option>
+              <option value="activity">Physical Activity &amp; Expenditure</option>
+              <option value="cardio">Cardiovascular &amp; Autonomic</option>
+              <option value="sleep">Prior-Night Sleep &amp; Recovery</option>
+              <option value="baseline">Personal Baseline &amp; EHR</option>
+              <option value="historical">Historical Risk Memory</option>
+              <option value="circadian">Circadian Clock Harmonics</option>
+            </select>
+            <input
+              type="search"
+              id="input-feature-search"
+              class="input-search"
+              placeholder="Search feature name or description…"
+              aria-label="Search features"
+            />
+          </div>
+        </div>
+        <div class="table-scroll" style="max-height: 380px; overflow-y: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Feature Key</th>
+                <th>Clinical Label</th>
+                <th>Group</th>
+                <th>Unit</th>
+                <th>Physiological Rationale</th>
+              </tr>
+            </thead>
+            <tbody id="table-feature-catalogue-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- ======================================================================
+         TAB 4: CLINICAL TIMELINE & DAY VIEW
+         ====================================================================== -->
+    <div id="panel-timeline" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-timeline" hidden>
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="section-kicker">Scenario Day Trajectory</div>
+            <h3 class="panel-title">Full Scenario-Day Glucose &amp; 2-Hour Spike Risk Overview</h3>
+            <p class="panel-subtitle">Complete day trace up to current simulation clock with summary glycaemic control metrics</p>
+          </div>
+          <div id="day-summary-metrics" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+        </div>
+        <div class="chart-canvas-wrap medium">
+          <canvas id="chart-timeline-day"></canvas>
+        </div>
+      </section>
+
+      <!-- Detected Physiological Patterns -->
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="section-kicker">Automated Pattern Recognition</div>
+            <h3 class="panel-title">Detected Multi-Sensor Physiological Patterns</h3>
+            <p class="panel-subtitle">Rule-grounded pattern synthesis across post-prandial, autonomic, sleep, and activity streams</p>
+          </div>
+          <div id="pattern-counters-strip" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+        </div>
+        <div id="pattern-cards-grid" class="three-col-grid">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- Full Debounced Clinical Event Feed -->
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="section-kicker">Debounced Event Log</div>
+            <h3 class="panel-title">Chronological Clinical &amp; Sensor Event Timeline</h3>
+          </div>
+          <div class="filter-bar" style="margin-bottom: 0;">
+            <select id="select-timeline-hours" class="sim-select" aria-label="Timeline lookback window">
+              <option value="12">Last 12 Hours</option>
+              <option value="24" selected>Last 24 Hours</option>
+              <option value="48">Last 48 Hours</option>
+              <option value="72">Full 72 Hours</option>
+            </select>
+            <select id="select-timeline-category" class="sim-select" aria-label="Filter by event category">
+              <option value="">All Categories</option>
+              <option value="meal">Meals &amp; Carbs</option>
+              <option value="glucose">Glucose Thresholds &amp; Slopes</option>
+              <option value="prediction">Model Risk Alerts</option>
+              <option value="activity">Physical Activity</option>
+              <option value="cardio">Cardiovascular / Autonomic</option>
+              <option value="sleep">Sleep &amp; Recovery</option>
+            </select>
+            <select id="select-timeline-severity" class="sim-select" aria-label="Filter by severity">
+              <option value="">All Severities</option>
+              <option value="critical">Critical</option>
+              <option value="warning">Warning</option>
+              <option value="watch">Watch</option>
+              <option value="good">Good / Protective</option>
+            </select>
+          </div>
+        </div>
+        <div id="timeline-full-feed" class="timeline-feed">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+    </div>
+
+    <!-- ======================================================================
+         TAB 5: MODEL VALIDATION & ARCHITECTURE
+         ====================================================================== -->
+    <div id="panel-validation" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-validation" hidden>
+      <!-- Held-Out Test Set KPIs -->
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="section-kicker">Patient-Wise Held-Out Evaluation</div>
+            <h3 class="panel-title">Model Discrimination, Precision-Recall &amp; Calibration Metrics</h3>
+            <p class="panel-subtitle" id="validation-split-subtitle">
+              Evaluated on 20 unseen test patients (10,960 5-minute windows) — zero patient overlap with training/validation splits
+            </p>
+          </div>
+          <span class="badge badge-good" id="validation-model-badge">Artifact Verified</span>
+        </div>
+
+        <div id="validation-kpi-grid" class="metric-stat-grid">
+          <!-- Populated dynamically from GET /api/model/metrics -->
+        </div>
+      </section>
+
+      <!-- 3 Validation Charts: ROC, Calibration, Threshold F1 -->
+      <div class="three-col-grid">
+        <section class="panel">
+          <h4 class="panel-title" style="font-size: 0.92rem; margin-bottom: 4px;">Held-Out ROC Curve</h4>
+          <p class="panel-subtitle" style="margin-bottom: 10px;">Sensitivity vs 1 − Specificity on unseen test patients</p>
+          <div class="chart-canvas-wrap medium">
+            <canvas id="chart-val-roc"></canvas>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h4 class="panel-title" style="font-size: 0.92rem; margin-bottom: 4px;">Reliability / Calibration Diagram</h4>
+          <p class="panel-subtitle" style="margin-bottom: 10px;">Isotonic-calibrated predicted probability vs empirical spike frequency</p>
+          <div class="chart-canvas-wrap medium">
+            <canvas id="chart-val-calibration"></canvas>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h4 class="panel-title" style="font-size: 0.92rem; margin-bottom: 4px;">Operating Threshold Selection</h4>
+          <p class="panel-subtitle" style="margin-bottom: 10px;">Validation F1 optimization across candidate probability thresholds</p>
+          <div class="chart-canvas-wrap medium">
+            <canvas id="chart-val-threshold"></canvas>
+          </div>
+        </section>
+      </div>
+
+      <!-- Model Comparison + Subgroup Performance -->
+      <div class="two-col-grid">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Benchmarking</div>
+              <h3 class="panel-title">Primary Multi-Stream GBM vs Baseline Comparators</h3>
+              <p class="panel-subtitle">Demonstrates the lift from multi-sensor feature fusion over glucose-only rules</p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>AUROC</th>
+                  <th>AUPRC</th>
+                  <th>Brier</th>
+                  <th>F1</th>
+                  <th>Sensitivity</th>
+                  <th>Specificity</th>
+                </tr>
+              </thead>
+              <tbody id="table-model-comparison-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Cohort Stratification</div>
+              <h3 class="panel-title">Subgroup Performance Audit (Test Split)</h3>
+              <p class="panel-subtitle">Performance stratified by metabolic phenotype on held-out patients</p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Phenotype Subgroup</th>
+                  <th>Samples (n)</th>
+                  <th>Event Rate</th>
+                  <th>AUROC</th>
+                  <th>AUPRC</th>
+                  <th>Brier Score</th>
+                </tr>
+              </thead>
+              <tbody id="table-subgroup-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- Synthetic Cohort Provenance + Scientific Limitations -->
+      <div class="two-col-grid">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Dataset &amp; Physiological Priors</div>
+              <h3 class="panel-title">Synthetic Cohort Generation &amp; Literature Grounding</h3>
+            </div>
+          </div>
+          <div id="dataset-provenance-box" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.82rem; color: var(--text-secondary);">
+            <!-- Populated from GET /api/model/dataset -->
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Clinical Governance &amp; Transparency</div>
+              <h3 class="panel-title">Documented Model Scope &amp; Scientific Limitations</h3>
+            </div>
+          </div>
+          <div id="limitations-list-container" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Populated from GET /api/model/limitations -->
+          </div>
+        </section>
+      </div>
+
+      <!-- System Architecture & Data Sources -->
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="section-kicker">System Engineering</div>
+            <h3 class="panel-title">5-Layer Digital Twin Platform Architecture</h3>
+          </div>
+        </div>
+        <div id="architecture-layers-container" class="arch-layer-list">
+          <!-- Populated from GET /api/architecture -->
+        </div>
+      </section>
+
+      <!-- Researcher Attribution -->
+      <section class="panel" id="profile-attribution-box">
+        <!-- Populated from GET /api/profile -->
+      </section>
+    </div>
+  </main>
+
+  <!-- Digital Twin Domain Drill-Down Modal -->
+  <div id="domain-modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="domain-modal-title" hidden>
+    <div class="modal-dialog">
+      <div class="panel-header">
+        <div>
+          <div class="section-kicker">Digital Twin Domain Drill-Down</div>
+          <h3 class="panel-title" id="domain-modal-title">Domain Detail</h3>
+        </div>
+        <button type="button" id="btn-close-domain-modal" class="btn btn-sm">✕ Close</button>
+      </div>
+      <div id="domain-modal-body" style="display: flex; flex-direction: column; gap: 12px;"></div>
+    </div>
+  </div>
+
+  <!-- Application Footer -->
+  <footer class="app-footer">
+    <div>
+      <strong>VitalSync — Metabolic Digital Twin Platform</strong> · MIT Licensed Open-Source Research Prototype
+    </div>
+    <div id="footer-build-meta">
+      Synthetic physiology cohort · FastAPI + Scikit-Learn / XGBoost + Chart.js
+    </div>
+  </footer>
+
+  <!-- Vendored Chart.js v4.4.7 (no external CDN dependency) -->
+  <script src="/assets/vendor/chart.umd.js"></script>
+  <!-- Application Modules -->
+  <script type="module" src="/assets/js/app.js"></script>
+</body>
+</html>

@@ -18,6 +18,7 @@ and no database, which keeps the prototype auditable.
 from __future__ import annotations
 
 import json
+import tempfile
 import threading
 from dataclasses import dataclass, field
 from datetime import date, datetime, time, timedelta
@@ -134,13 +135,13 @@ class PatientRecord:
 class PatientRepository:
     """Loads and materialises every patient's digital twin."""
 
-    def __init__(self, patients_file: Path = PATIENTS_FILE, rebuild_files: bool = True) -> None:
+    def __init__(self, patients_file: Path = PATIENTS_FILE, rebuild_files: Optional[bool] = None) -> None:
         self.patients_file = Path(patients_file)
         self._records: Dict[str, PatientRecord] = {}
         self._order: List[str] = []
         self._lock = threading.RLock()
         self._roster: Dict[str, Any] = {}
-        self.rebuild_files = rebuild_files
+        self.rebuild_files = settings.persist_sensor_files if rebuild_files is None else rebuild_files
         self.reload()
 
     # ------------------------------------------------------------------ load
@@ -227,38 +228,43 @@ class PatientRepository:
             return heuristic, heuristic
 
     def _persist(self, record: PatientRecord) -> None:
-        """Write the generated signal + its provenance next to the code."""
-        try:
-            SENSOR_DIR.mkdir(parents=True, exist_ok=True)
-            csv_path = SENSOR_DIR / f"{record.patient_id}_signals.csv"
-            record.frame.to_csv(csv_path, index=False)
-            metadata = record.stream.to_metadata()
-            metadata.update(
-                {
-                    "classification": "SYNTHETIC — generated, not measured",
-                    "generated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
-                    "generator": "backend/services/synthetic_data.py",
-                    "scenario_day": record.stream.scenario_day.isoformat(),
-                    "sampling_interval_minutes": settings.sampling_interval_minutes,
-                    "signals": [
-                        {"column": "glucose_mgdl", "device": "Continuous glucose monitor", "precision": "integer mg/dL"},
-                        {"column": "heart_rate_bpm", "device": "Wrist wearable (PPG)", "precision": "integer bpm"},
-                        {"column": "hrv_rmssd_ms", "device": "Wrist wearable (PPG)", "precision": "integer ms"},
-                        {"column": "steps_5min", "device": "Wrist wearable (accelerometer)", "precision": "integer steps"},
-                        {"column": "activity_met", "device": "Wrist wearable", "precision": "0.1 MET"},
-                        {"column": "spo2_pct", "device": "Wrist wearable (SpO₂)", "precision": "integer %"},
-                        {"column": "sleep_stage", "device": "Wrist wearable (hypnogram)", "precision": "categorical"},
-                    ],
-                    "contains_real_patient_data": False,
-                    "personal_baseline": {
-                        k: v for k, v in record.baseline.items() if not isinstance(v, (dict, list))
-                    },
-                    "habitual_meals": record.baseline.get("habitual_meals", []),
-                }
-            )
-            (SENSOR_DIR / f"{record.patient_id}_metadata.json").write_text(json.dumps(metadata, indent=2, default=str))
-        except OSError as exc:  # pragma: no cover
-            print(f"[patient_service] could not persist sensor data: {exc}")
+        """Write the generated signal + its provenance next to the code or /tmp if read-only."""
+        metadata = record.stream.to_metadata()
+        metadata.update(
+            {
+                "classification": "SYNTHETIC — generated, not measured",
+                "generated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+                "generator": "backend/services/synthetic_data.py",
+                "scenario_day": record.stream.scenario_day.isoformat(),
+                "sampling_interval_minutes": settings.sampling_interval_minutes,
+                "signals": [
+                    {"column": "glucose_mgdl", "device": "Continuous glucose monitor", "precision": "integer mg/dL"},
+                    {"column": "heart_rate_bpm", "device": "Wrist wearable (PPG)", "precision": "integer bpm"},
+                    {"column": "hrv_rmssd_ms", "device": "Wrist wearable (PPG)", "precision": "integer ms"},
+                    {"column": "steps_5min", "device": "Wrist wearable (accelerometer)", "precision": "integer steps"},
+                    {"column": "activity_met", "device": "Wrist wearable", "precision": "0.1 MET"},
+                    {"column": "spo2_pct", "device": "Wrist wearable (SpO₂)", "precision": "integer %"},
+                    {"column": "sleep_stage", "device": "Wrist wearable (hypnogram)", "precision": "categorical"},
+                ],
+                "contains_real_patient_data": False,
+                "personal_baseline": {
+                    k: v for k, v in record.baseline.items() if not isinstance(v, (dict, list))
+                },
+                "habitual_meals": record.baseline.get("habitual_meals", []),
+            }
+        )
+        for target_dir in (SENSOR_DIR, Path(tempfile.gettempdir()) / "vitalsync" / "sensor_data"):
+            try:
+                target_dir.mkdir(parents=True, exist_ok=True)
+                csv_path = target_dir / f"{record.patient_id}_signals.csv"
+                record.frame.to_csv(csv_path, index=False)
+                (target_dir / f"{record.patient_id}_metadata.json").write_text(
+                    json.dumps(metadata, indent=2, default=str)
+                )
+                return
+            except OSError:
+                continue
+        print("[patient_service] could not persist sensor data to SENSOR_DIR or /tmp")
 
     # ----------------------------------------------------------------- access
     def ids(self) -> List[str]:
