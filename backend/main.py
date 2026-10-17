@@ -83,8 +83,8 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     # The prototype is same-origin in normal use; these origins exist so the
-    # dashboard can also be opened from a file:// page or a sandbox preview host.
-    allow_origin_regex=r"(http|https)://(localhost|127\.0\.0\.1|0\.0\.0\.0|[a-z0-9\-]+\.e2b\.app)(:\d+)?",
+    # dashboard can also be opened from a file:// page or a sandbox/Vercel preview host.
+    allow_origin_regex=r"(http|https)://(localhost|127\.0\.0\.1|0\.0\.0\.0|[a-z0-9\-]+\.e2b\.app|[a-z0-9\-]+\.vercel\.app)(:\d+)?",
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -161,12 +161,13 @@ def json_safe(errors: Any) -> Any:
 # Static frontend
 # ---------------------------------------------------------------------------
 INDEX_FILE = FRONTEND_DIR / "index.html"
+FAVICON_FILE = FRONTEND_DIR / "favicon.svg"
 
 
 @app.get("/", include_in_schema=False)
 def index() -> Any:
     if INDEX_FILE.exists():
-        return FileResponse(INDEX_FILE)
+        return FileResponse(INDEX_FILE, media_type="text/html")
     return JSONResponse(
         status_code=200,
         content={
@@ -177,6 +178,14 @@ def index() -> Any:
             "health": "/api/health",
         },
     )
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+@app.get("/favicon.svg", include_in_schema=False)
+def favicon() -> Any:
+    if FAVICON_FILE.exists():
+        return FileResponse(FAVICON_FILE, media_type="image/svg+xml")
+    return JSONResponse(status_code=204, content=None)
 
 
 if FRONTEND_DIR.exists():

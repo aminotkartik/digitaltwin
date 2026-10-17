@@ -91,6 +91,7 @@ class SimulationService:
         self,
         patient_id: Optional[str] = None,
         from_clock: Optional[str] = None,
+        from_index: Optional[int] = None,
         speed_minutes_per_tick: int = 5,
         tick_interval_ms: int = 900,
         session_id: Optional[str] = None,
@@ -99,7 +100,9 @@ class SimulationService:
         patient_id = patient_id or settings.demo_patient_id
         record = repository.get(patient_id)          # raises PatientNotFoundError
         start_index = record.simulation_start_index
-        if from_clock:
+        if from_index is not None:
+            start_index = record.clip_index(int(from_index))
+        elif from_clock:
             try:
                 hh, mm = str(from_clock).split(":")[:2]
                 target = record.timestamp_at(record.now_index).normalize() + pd.Timedelta(hours=int(hh), minutes=int(mm))

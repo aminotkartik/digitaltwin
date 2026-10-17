@@ -96,6 +96,9 @@ class Settings(BaseSettings):
     # Personal baselines are estimated from an onboarding window at the start of
     # the stored history; only samples after it are ever scored.
     baseline_onboarding_hours: int = 48
+    # Committed sensor CSV/JSON artifacts already live in backend/data/sensor_data/.
+    # Avoid rewriting the source tree on every cold start unless explicitly enabled.
+    persist_sensor_files: bool = False
 
     # -- Demo clock --------------------------------------------------------
     # The twin replays a scripted scenario day, so the "current" instant is a

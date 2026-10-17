@@ -1,0 +1,32 @@
+# Python bytecode and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Environment variables & secrets (never commit .env)
+.env
+.env.*
+!.env.example
+
+# Vercel build/local artifacts
+.vercel/
+_vendor/
+_vc_pycache/
+
+# OS & editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
